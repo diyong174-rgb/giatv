@@ -105,11 +105,11 @@ body {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  font-size: 11px; /* Reduced font size */
+  font-size: 10px; /* Reduced font size further for better fit */
   color: white;
   transition: background-color 0.3s ease;
   width: 20%; /* Adjust width to fit all categories in one row */
-  min-width: 65px; /* Ensure enough space for text */
+  min-width: 60px; /* Ensure enough space for text */
 }
 
 .category-box:hover {
@@ -117,12 +117,12 @@ body {
 }
 
 .channel-list {
-  margin-top: 80px; /* Add space for the fixed category drawer */
+  margin-top: 20px; /* Reduced space between category and channel list */
   padding: 10px;
   background-color: #12182a;
   border-radius: 5px;
   overflow-y: auto; /* Vertical scrolling */
-  max-height: 400px;
+  max-height: 500px; /* Increased the visible height of the channel list */
 }
 
 .channel-list div {
@@ -202,12 +202,12 @@ iframe {
   .category-box {
     width: 20%; /* Ensure they fit within the screen */
     min-width: 60px; /* Reduce size for small screens */
-    font-size: 11px; /* Reduced font size to make text fit */
+    font-size: 10px; /* Reduced font size to make text fit */
     padding: 8px;
   }
 
   .channel-list {
-    max-height: 300px;
+    max-height: 400px; /* Increase the visible height of the channel list */
     overflow-y: auto;
   }
 
