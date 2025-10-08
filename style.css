@@ -40,7 +40,7 @@ body {
 }
 
 #viewerCounter {
-  position: absolute;
+  position: fixed; /* Fix viewer count at the top */
   top: 10px;
   right: 10px;
   display: flex;
@@ -206,9 +206,9 @@ iframe {
     padding: 8px;
   }
 
-  /* Increase max-height for channel list and enable scrolling */
+  /* Increased max-height for channel list to ensure scrolling */
   .channel-list {
-    max-height: 300px; /* Increase the visible height of the channel list */
+    max-height: 400px; /* Increase the visible height of the channel list */
     overflow-y: auto; /* Allow scrolling */
   }
 
