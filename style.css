@@ -117,12 +117,12 @@ body {
 }
 
 .channel-list {
-  margin-top: 20px; /* Reduced space between category and channel list */
+  margin-top: 10px; /* Reduce space between category drawer and channel list */
   padding: 10px;
   background-color: #12182a;
   border-radius: 5px;
-  overflow-y: auto; /* Vertical scrolling */
-  max-height: 500px; /* Increased the visible height of the channel list */
+  overflow-y: auto; /* Enable scrolling */
+  height: calc(100vh - 180px); /* Adjust the height dynamically to fit within the screen */
 }
 
 .channel-list div {
@@ -206,9 +206,10 @@ iframe {
     padding: 8px;
   }
 
-  /* Increased max-height for channel list to ensure scrolling */
+  /* Remove fixed height on mobile for the channel list */
   .channel-list {
-    max-height: 400px; /* Increase the visible height of the channel list */
+    max-height: none; /* Allow dynamic height */
+    height: auto; /* Ensure it adapts to the content */
     overflow-y: auto; /* Allow scrolling */
   }
 
