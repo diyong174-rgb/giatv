@@ -105,7 +105,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  font-size: 10px; /* Reduced font size further for better fit */
+  font-size: 10px; /* Reduced font size */
   color: white;
   transition: background-color 0.3s ease;
   width: 20%; /* Adjust width to fit all categories in one row */
@@ -206,9 +206,10 @@ iframe {
     padding: 8px;
   }
 
+  /* Increase max-height for channel list and enable scrolling */
   .channel-list {
-    max-height: 400px; /* Increase the visible height of the channel list */
-    overflow-y: auto;
+    max-height: 300px; /* Increase the visible height of the channel list */
+    overflow-y: auto; /* Allow scrolling */
   }
 
   .channel-name-date {
