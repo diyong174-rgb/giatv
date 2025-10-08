@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player with Categories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #12182a;
+            color: #fff;
+            display: flex;
+            flex-direction: row; /* Keep for desktop */
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Drawer Styles (Categories) */
+        .drawer {
+            width: 20%;
+            background-color: #1c1c1c;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            right: 0;
+            top: 0;
+            height: 100%;
+        }
+
+        .current-channel {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #fde4c3;
+            font-weight: bold;
+        }
+
+        /* Category buttons for Desktop (horizontal) */
+        .category-buttons {
+            display: flex;
+            justify-content: space-evenly;
+            margin-bottom: 10px;
+            gap: 10px;
+            flex-wrap: nowrap; /* Horizontal layout for desktop */
+        }
+
+        .category-btn {
+            background-color: #3e3e3e;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-size: 12px;
+            border-radius: 10px;
+            width: 23%;
+            margin: 5px 0;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .category-btn:hover {
+            background-color: #575757;
+            transform: scale(1.05);
+        }
+
+        .category-btn.active {
+            background-color: #ff8c00;
+            transform: scale(1.1);
+        }
+
+        .channel-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            background-color: #2c2c2c;
+            border-radius: 5px;
+            margin-top: 20px;
+            max-height: 50vh;
+            overflow-y: auto;
+            padding-right: 10px; /* Add space for scrollbar */
+        }
+
+        .channel-item {
+            background-color: #3e3e3e;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .channel-item:hover {
+            background-color: #575757;
+        }
+
+        /* Video Player Section */
+        .video-container {
+            width: 80%; /* For desktop, takes 80% of screen width */
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+        }
+
+        video, audio {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .date-time {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            color: #fde4c3;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .viewer-count {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            color: #fde4c3;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .custom-channel-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .category-btn#customBtn {
+            width: 60%;
+            background-color: #4CAF50;
+            font-size: 14px;
+            padding: 15px;
+        }
+
+        .custom-channel-form {
+            display: none;
+            margin-top: 20px;
+            color: #fde4c3;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-submit {
+            padding: 10px 20px;
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-submit:hover {
+            background-color: #e07b00;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #3e3e3e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            background-color: #575757;
+        }
+
+        /* Responsive Styles for Mobile */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column; /* Stack content vertically for mobile */
+            }
+
+            .video-container {
+                padding-top: 60px; /* Add space for the header and control elements */
+                height: 50vh; /* Video takes 50% of height */
+            }
+
+            .video-wrapper {
+                width: 100%;
+                height: 100%;
+            }
+
+            .drawer {
+                width: 100%;
+                position: relative;
+                padding: 10px;
+                height: 50%; /* Drawer takes 50% of height */
+                overflow-y: auto;
+            }
+
+            .category-btn {
+                width: 48%; /* Fit buttons in 2 rows */
+                font-size: 13px; /* Adjust font size for mobile */
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .channel-list {
+                max-height: 50vh; /* Allow for more channels to be visible */
+                overflow-y: scroll; /* Make the list scrollable */
+            }
+
+            .custom-channel-form {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Video Player Section -->
+    <div class="video-container">
+        <div class="video-wrapper">
+            <video id="videoPlayer" controls></video>
+            <audio id="audioPlayer" controls style="display:none;" muted></audio>
+            <iframe id="youtubePlayer" style="display:none;"></iframe>
+        </div>
+    </div>
+
+    <!-- Drawer for Categories -->
+    <div class="drawer">
+        <div id="currentChannel" class="current-channel">Currently Playing: Not Playing</div>
+
+        <!-- Search Box -->
+        <input type="text" class="search-box" id="searchChannel" placeholder="Search Channels" onkeyup="filterChannels()">
+
+        <!-- Horizontal Category Buttons (Desktop) -->
+        <div class="category-buttons">
+            <button class="category-btn" id="cableBtn" onclick="showChannels('Cable')">CABLE</button>
+            <button class="category-btn" id="radioBtn" onclick="showChannels('Radio')">RADIO</button>
+            <button class="category-btn" id="moviesBtn" onclick="showChannels('Movies')">MOVIES</button>
+            <button class="category-btn" id="youtubeBtn" onclick="showChannels('YouTube')">YOUTUBE</button>
+        </div>
+
+        <!-- Centering Custom Channels Button -->
+        <div class="custom-channel-container">
+            <button class="category-btn" id="customBtn" onclick="toggleCustomChannelForm()">CUSTOM CHANNELS</button>
+        </div>
+
+        <!-- Custom Channel Form -->
+        <div class="custom-channel-form" id="customChannelForm">
+            <input class="form-input" type="text" id="channelName" placeholder="Channel Name">
+            <input class="form-input" type="text" id="channelURL" placeholder="Channel URL">
+            <select class="form-input" id="channelType">
+                <option value="hls">HLS</option>
+                <option value="mpd">MPD</option>
+            </select>
+            <button class="form-submit" onclick="addCustomChannel()">Add Channel</button>
+        </div>
+
+        <!-- List of channels will appear here -->
+        <ul id="channelList" class="channel-list"></ul>
+    </div>
+
+    <!-- Date & Time -->
+    <div class="date-time" id="dateTime"></div>
+
+    <script>
+        let currentPlayer;
+        let customChannels = {
+            Cable: [
+                { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
+                { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
+                { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
+                { name: 'ATBS', url: 'https://live20.bozztv.com/akamaissh101/ssh101/atbsch21/playlist.m3u8', type: 'hls', logo: '' }
+            ],
+            YouTube: [
+                { name: 'YOUTUBE LIVE MOVIES', url: 'https://www.youtube.com/embed/-SojqU6N5Wk', type: 'youtube', logo: '' },
+                { name: 'YOUTUBE LIVE MOVIES 2', url: 'https://www.youtube.com/embed/e7GPAy9vq04', type: 'youtube', logo: '' }
+            ],
+            Movies: [
+                { name: 'May lamok sa loob ng kulambo', url: 'https://jungotvmedia.chanall.tv/jungotv/SolarMayLamokSaKulamboTGFULL10mbps/playlist_720p.m3u8', type: 'movies', logo: '' }
+            ],
+            Radio: [
+                { name: '106.3 Yes FM Dagupan', url: 'https://yesfmdagupan.radioca.st/;', type: 'mp3', logo: '' },
+                { name: '98.3 Love Radio Dagupan', url: 'https://loveradiodagupan.radioca.st/;', type: 'mp3', logo: '' }
+            ]
+        };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database(app);
+
+        function trackActiveViewers() {
+            let viewersRef = database.ref('viewers');
+            viewersRef.transaction((currentValue) => {
+                return (currentValue || 0) + 1;
+            });
+        }
+
+        window.onload = () => {
+            trackActiveViewers();
+        };
+
+        function updateDateTime() {
+            const dateTime = new Date();
+            const formattedDate = dateTime.toLocaleString();
+            document.getElementById('dateTime').textContent = formattedDate;
+        }
+        setInterval(updateDateTime, 1000);
+
+        function showChannels(category) {
+            const elList = document.getElementById('channelList');
+            const currentChannelText = document.getElementById('currentChannel');
+            elList.innerHTML = '';
+
+            currentChannelText.innerText = `Currently Playing: `;
+
+            const ch = customChannels[category];
+
+            if (ch) {
+                elList.style.display = 'block';
+                ch.forEach(channel => {
+                    const li = document.createElement('li');
+                    li.classList.add('channel-item');
+                    li.textContent = channel.name;
+                    li.onclick = function() {
+                        playChannel(channel);
+                    };
+                    elList.appendChild(li);
+                });
+            } else {
+                elList.style.display = 'none';
+            }
+        }
+
+        function playChannel(channel) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const youtubePlayer = document.getElementById('youtubePlayer');
+
+            // Stop and clear previous audio
+            if (audioPlayer.style.display === 'block') {
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;
+                audioPlayer.src = ''; // Clear audio source
+                audioPlayer.style.display = 'none';
+            }
+
+            // Stop video if any
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+            videoPlayer.style.display = 'none';
+
+            youtubePlayer.src = '';
+            youtubePlayer.style.display = 'none';
+
+            // Play selected media
+            if (channel.type === 'hls') {
+                if (Hls.isSupported()) {
+                    currentPlayer = new Hls();
+                    currentPlayer.loadSource(channel.url);
+                    currentPlayer.attachMedia(videoPlayer);
+
+                    currentPlayer.on(Hls.Events.MANIFEST_PARSED, () => {
+                        videoPlayer.style.display = 'block';
+                        videoPlayer.play();
+                    });
+                }
+            }
+            else if (channel.type === 'movies') {
+                videoPlayer.src = channel.url;
+                videoPlayer.style.display = 'block';
+                videoPlayer.play();
+            }
+            else if (channel.type === 'mpd') {
+                currentPlayer = new shaka.Player(videoPlayer);
+                currentPlayer.configure({
+                    drm: { clearKeys: { [channel.keyId]: channel.key } }
+                });
+
+                currentPlayer.load(channel.url).then(() => {
+                    videoPlayer.style.display = 'block';
+                    videoPlayer.play();
+                }).catch((error) => {
+                    console.error('Error loading MPD stream:', error);
+                });
+            }
+            else if (channel.type === 'mp3') {
+                audioPlayer.src = channel.url;
+                audioPlayer.style.display = 'block';
+                audioPlayer.play();
+            }
+            else if (channel.type === 'youtube') {
+                youtubePlayer.src = channel.url;
+                youtubePlayer.style.display = 'block';
+            }
+
+            const currentChannelText = document.getElementById('currentChannel');
+            currentChannelText.innerText = `Currently Playing: ${channel.name}`;
+        }
+
+        function filterChannels() {
+            const searchQuery = document.getElementById('searchChannel').value.toLowerCase();
+            const channelItems = document.querySelectorAll('.channel-item');
+
+            channelItems.forEach(item => {
+                const channelName = item.textContent.toLowerCase();
+                if (channelName.includes(searchQuery)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
