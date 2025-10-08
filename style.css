@@ -88,8 +88,15 @@ body {
 
 .category-drawer {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-evenly; /* Distribute space evenly */
   margin-top: 10px;
+  background-color: #2a3043;
+  padding: 10px 0;
+  position: sticky; /* Fix categories to the top */
+  top: 0;
+  z-index: 15;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow */
 }
 
 .category-box {
@@ -98,11 +105,11 @@ body {
   border-radius: 5px;
   cursor: pointer;
   text-align: center;
-  font-size: 12px;
+  font-size: 11px; /* Reduced font size */
   color: white;
   transition: background-color 0.3s ease;
-  width: 22%;
-  margin-bottom: 10px;
+  width: 20%; /* Adjust width to fit all categories in one row */
+  min-width: 65px; /* Ensure enough space for text */
 }
 
 .category-box:hover {
@@ -110,12 +117,12 @@ body {
 }
 
 .channel-list {
-  max-height: 400px;
-  overflow-y: auto;
+  margin-top: 80px; /* Add space for the fixed category drawer */
   padding: 10px;
   background-color: #12182a;
   border-radius: 5px;
-  margin-top: 10px;
+  overflow-y: auto; /* Vertical scrolling */
+  max-height: 400px;
 }
 
 .channel-list div {
@@ -189,15 +196,13 @@ iframe {
 
   .category-drawer {
     width: 100%;
-    margin-top: 20px;
-    flex-wrap: nowrap;
-    overflow-x: auto; /* Enable horizontal scrolling for categories */
+    flex-wrap: nowrap; /* No wrapping, keep categories in one line */
   }
 
   .category-box {
-    width: auto; /* Allow category box to expand */
-    min-width: 100px;
-    font-size: 12px;
+    width: 20%; /* Ensure they fit within the screen */
+    min-width: 60px; /* Reduce size for small screens */
+    font-size: 11px; /* Reduced font size to make text fit */
     padding: 8px;
   }
 
