@@ -102,13 +102,13 @@
 
     /* Channel Drawer */
     .channel-drawer {
-      width: 250px;
+      width: 100%;
       background-color: #444;
       margin-top: 20px;
       padding: 15px;
       border-radius: 10px;
-      overflow-y: auto;
-      max-height: 500px;
+      overflow-x: auto; /* Allows horizontal scrolling */
+      white-space: nowrap; /* Prevents wrapping */
     }
 
     .channel-header {
@@ -118,21 +118,18 @@
     }
 
     .channel-item {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      display: inline-block;
       padding: 15px;
-      margin-bottom: 10px;
+      margin-right: 10px;
       background-color: #0056b3;
       border-radius: 10px;
       transition: all 0.3s ease;
       color: #fff;
+      cursor: pointer;
     }
 
     .channel-item:hover {
       background-color: #00aaff;
-      cursor: pointer;
       box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
       transform: scale(1.05);
       color: #000;
@@ -147,9 +144,10 @@
     /* Categories */
     .categories {
       display: flex;
-      justify-content: space-around;
+      justify-content: flex-start;
       margin-top: 20px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap; /* Prevents wrapping on mobile */
+      overflow-x: auto; /* Horizontal scrolling for categories */
     }
 
     .category {
@@ -180,23 +178,31 @@
         height: 200px;
       }
 
+      /* Channel drawer on mobile: horizontal layout */
       .channel-drawer {
         margin-bottom: 10px;
       }
 
+      /* Categories horizontal scroll on mobile */
       .categories {
-        flex-direction: column;
-        width: 100%;
+        flex-direction: row;
         align-items: center;
+        justify-content: flex-start;
+        width: 100%;
       }
 
       .category {
-        width: 80%;
-        margin-bottom: 5px;
+        margin-right: 10px;
+      }
+
+      /* Channel item boxes on mobile */
+      .channel-item {
+        width: 150px; /* Narrower boxes */
+        margin-right: 10px;
       }
     }
 
-    /* Desktop Layout */
+    /* Desktop Layout (No Changes Here) */
     @media (min-width: 768px) {
       .content-wrapper {
         display: flex;
