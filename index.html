@@ -86,7 +86,7 @@
     /* Video Player */
     .video-container {
       width: 100%;
-      height: 400px;
+      height: 350px; /* Fixed semi-rectangle size */
       background-color: #333;
       margin-bottom: 30px;
       display: flex;
@@ -95,7 +95,7 @@
     }
 
     .video-container iframe {
-      width: 100%;
+      width: 80%; /* Video will be 80% of container width */
       height: 100%;
       border: none;
     }
@@ -194,7 +194,7 @@
       }
 
       .video-container {
-        height: 200px;
+        height: 250px; /* Video Player becomes smaller on mobile */
       }
 
       .channel-drawer {
@@ -229,6 +229,17 @@
         max-height: 60vh;
         overflow-y: scroll;
       }
+
+      /* Logo Compression on Mobile */
+      .logo img {
+        width: 80px; /* Smaller logo on mobile */
+      }
+
+      /* Enlarged Comment and Add Your Channel Buttons on Mobile */
+      button {
+        padding: 15px;
+        font-size: 20px;
+      }
     }
 
     /* Desktop Layout */
@@ -240,7 +251,7 @@
 
       .video-container {
         width: 70%;
-        height: 400px;
+        height: 350px;
       }
 
       .channel-drawer {
