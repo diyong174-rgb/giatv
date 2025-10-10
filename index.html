@@ -167,6 +167,22 @@
       background-color: #00aaff;
     }
 
+    /* Comment & Add Your Channel Button */
+    button {
+      font-size: 18px;
+      padding: 12px;
+      border-radius: 10px;
+      background-color: #0056b3;
+      color: #fff;
+      margin: 10px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00aaff;
+      box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+    }
+
     /* Mobile Layout */
     @media (max-width: 767px) {
       .header {
@@ -181,7 +197,6 @@
         height: 200px;
       }
 
-      /* Channel drawer on mobile: horizontal layout */
       .channel-drawer {
         margin-bottom: 10px;
         padding: 0;
@@ -203,9 +218,9 @@
 
       /* Channel item boxes on mobile */
       .channel-item {
-        width: 200px; /* Adjust box width */
-        height: 50px; /* Maintain height */
-        margin-right: 10px;
+        width: 100%; /* Adjust box width to fill the screen */
+        height: 80px; /* Adjust height for mobile */
+        margin-bottom: 10px;
         padding: 10px;
       }
 
@@ -384,7 +399,7 @@
 
     // Define channels
     const channels = {
-     CABLE: [
+      CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },	 	   
   { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' }, 
