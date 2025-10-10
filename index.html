@@ -103,7 +103,6 @@
     /* Channel Drawer */
     .channel-drawer {
       display: flex;
-      flex-direction: row; /* Horizontal layout for mobile */
       flex-wrap: wrap;
       gap: 10px;
       background-color: #444;
@@ -147,6 +146,7 @@
       justify-content: space-around;
       margin-top: 20px;
       flex-wrap: wrap;
+      gap: 10px;
     }
 
     .category {
@@ -205,14 +205,15 @@
       }
 
       .categories {
-        flex-direction: column;
+        flex-direction: row;
         width: 100%;
         align-items: center;
       }
 
       .category {
-        width: 80%;
+        width: auto;
         margin-bottom: 5px;
+        font-size: 14px;
       }
     }
 
