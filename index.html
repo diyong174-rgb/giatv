@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3rstv IPTV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: absolute;
+            width: 100%;
+            background-color: #111;
+        }
+
+        .login-box {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: #FFD34E;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4BA3F7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3b92e0;
+        }
+
+        /* IPTV Dashboard Styles */
+        .ip-tv-container {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #222;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header img {
+            height: 40px;
+        }
+
+        .category-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .category-bar button {
+            background-color: #4BA3F7;
+            padding: 10px 20px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .category-bar button:hover {
+            background-color: #3b92e0;
+        }
+
+        /* Video Container */
+        .video-container {
+            margin-top: 20px;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .video-player {
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+            background-color: #000;
+            margin: 0 auto;
+        }
+
+        /* Time Display */
+        #current-time {
+            font-size: 14px;
+            color: #fff;
+            margin-top: 20px;
+        }
+
+        /* Drawer for Channels */
+        .drawer {
+            position: fixed;
+            top: 80px;
+            right: -300px;
+            width: 300px;
+            height: calc(100% - 80px);
+            background-color: #222;
+            color: white;
+            transition: 0.3s;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .drawer.open {
+            right: 0;
+        }
+
+        .drawer h3 {
+            margin-bottom: 15px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            width: 80%;
+            margin: 10px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 85%;
+            padding: 10px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+            background-color: #4BA3F7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Comment Box */
+        .comment-box {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+
+        .comment-list {
+            margin-top: 20px;
+        }
+
+        .comment-item {
+            padding: 10px;
+            background-color: #555;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .comment-item span {
+            font-weight: bold;
+        }
+
+        /* Add Your Own Channel Form */
+        .add-channel-form {
+            display: none;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .add-channel-form input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .add-channel-form button {
+            background-color: #4BA3F7;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .footer {
+            background-color: #222;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="login-container">
+        <div class="login-box">
+            <h2>Login to 3rstv IPTV</h2>
+            <form onsubmit="event.preventDefault(); login();">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="ip-tv-container" id="ip-tv-container">
+        <div class="header">
+            <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="3rstv Logo">
+            <div class="category-bar">
+                <button onclick="openDrawer('CABLE')">Cable</button>
+                <button onclick="openDrawer('RADIO')">Radio</button>
+                <button onclick="openDrawer('MOVIES')">Movies</button>
+                <button onclick="openDrawer('YOUTUBE')">YouTube</button>
+                <button onclick="openDrawer('COMMENTS')">Comments</button> 
+                <button onclick="openDrawer('ADDED_CHANNELS')">Added Channels</button>
+                <button onclick="openAddChannelForm()">Add Your Own Channel</button>
+            </div>
+            <div class="user-info">
+                <span id="username-display">Logged in as: </span>
+                <button class="login-btn" onclick="logout()">Log Out</button>
+            </div>
+        </div>
+
+        <div class="video-container" id="video-container">
+            <div class="video-player" id="video-player">Video Player</div>
+        </div>
+
+        <div id="current-time"></div>  <!-- Time Display -->
+
+        <div class="drawer" id="drawer">
+            <h3>Channels</h3>
+            <div id="channel-list"></div>
+        </div>
+
+        <!-- Comment Section Drawer -->
+        <div class="drawer" id="comment-drawer">
+            <h3>Comments</h3>
+            <div class="comment-box">
+                <textarea id="comment-text" placeholder="Enter your comment..."></textarea>
+                <button onclick="postComment()">Post Comment</button>
+            </div>
+            <div class="comment-list" id="comment-list"></div>
+        </div>
+
+        <!-- Add Your Own Channel Form -->
+        <div class="add-channel-form" id="add-channel-form">
+            <h3>Add Your Channel</h3>
+            <label for="channel-name">Channel Name:</label>
+            <input type="text" id="channel-name" placeholder="Channel Name">
+            <label for="channel-url">Channel URL:</label>
+            <input type="text" id="channel-url" placeholder="Channel URL">
+            <label for="channel-type">Type (HLS/MPD):</label>
+            <input type="text" id="channel-type" placeholder="Channel Type">
+            <button onclick="addChannel()">Add Channel</button>
+            <button onclick="closeAddChannelForm()">Close</button>
+        </div>
+
+        <div class="footer">
+            <!-- Footer Content -->
+        </div>
+    </div>
+
+    <script>
+        let currentUser = "";
+        let comments = [];
+        let currentCategory = "";
+        let userChannels = [];
+
+        const channels = {
+            CABLE: [
+                { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls' },
+                { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls' }
+            ],
+            ADDED_CHANNELS: [] 
+        };
+
+        function login() {
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+
+            if (username && password) {
+                currentUser = username;
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('ip-tv-container').style.display = 'block';
+                document.getElementById('username-display').textContent = `Logged in as: ${currentUser}`;
+            }
+        }
+
+        function logout() {
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('ip-tv-container').style.display = 'none';
+            currentUser = "";
+        }
+
+        function openDrawer(category) {
+            // Close all other drawers first
+            document.querySelectorAll('.drawer').forEach(drawer => drawer.classList.remove('open'));
+
+            // Open the drawer for the selected category
+            if (category === 'COMMENTS') {
+                const commentDrawer = document.getElementById('comment-drawer');
+                commentDrawer.classList.add('open');
+            } else {
+                const drawer = document.getElementById('drawer');
+                drawer.classList.add('open');
+            }
+
+            currentCategory = category;
+            displayChannels(channels[category] || []);
+        }
+
+        function postComment() {
+            const commentText = document.getElementById('comment-text').value;
+            if (commentText.trim()) {
+                comments.push({ username: currentUser, text: commentText });
+                document.getElementById('comment-text').value = '';
+                displayComments();
+            }
+        }
+
+        function displayComments() {
+            const commentListContainer = document.getElementById('comment-list');
+            commentListContainer.innerHTML = comments.map(comment =>
+                `<div class="comment-item"><span>${comment.username}:</span> ${comment.text}</div>`
+            ).join('');
+        }
+
+        function addChannel() {
+            const channelName = document.getElementById('channel-name').value;
+            const channelUrl = document.getElementById('channel-url').value;
+            const channelType = document.getElementById('channel-type').value;
+
+            if (channelName && channelUrl && channelType) {
+                const newChannel = { name: channelName, url: channelUrl, type: channelType };
+                channels.ADDED_CHANNELS.push(newChannel);
+                displayChannels(channels.ADDED_CHANNELS);
+                closeAddChannelForm();
+            }
+        }
+
+        function displayChannels(channelList) {
+            const channelListContainer = document.getElementById('channel-list');
+            channelListContainer.innerHTML = channelList.map(channel =>
+                `<button onclick="playChannel('${channel.url}', '${channel.type}')">${channel.name}</button>`
+            ).join('');
+        }
+
+        function playChannel(url, type) {
+            const videoPlayer = document.getElementById('video-player');
+            if (type === 'hls') {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(videoPlayer);
+            }
+        }
+
+        function closeAddChannelForm() {
+            document.getElementById('add-channel-form').style.display = 'none';
+        }
+
+        function openAddChannelForm() {
+            document.getElementById('add-channel-form').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
