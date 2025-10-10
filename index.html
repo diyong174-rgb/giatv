@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPTV Layout</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+    }
+
+    /* Login Form Styling */
+    .login-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #222;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 300px;
+      padding: 20px;
+      background-color: #333;
+      border-radius: 10px;
+    }
+
+    .login-form input {
+      margin: 10px 0;
+      padding: 12px;
+      width: 100%;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .login-form button {
+      padding: 12px;
+      background-color: #00aaff;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .login-form button:hover {
+      background-color: #0099cc;
+    }
+
+    /* IPTV Content */
+    .iptv-content {
+      display: none;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #222;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo img {
+      width: 100px;
+    }
+
+    /* Video Player */
+    .video-container {
+      width: 100%;
+      height: 400px;
+      background-color: #333;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Channel Drawer */
+    .channel-drawer {
+      width: 250px;
+      background-color: #444;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      overflow-y: auto;
+      max-height: 500px;
+    }
+
+    .channel-header {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #00aaff;
+      text-shadow: 0 0 10px #00aaff;
+    }
+
+    .channel-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #0056b3;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      color: #fff;
+    }
+
+    .channel-item:hover {
+      background-color: #00aaff;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+      transform: scale(1.05);
+      color: #000;
+    }
+
+    .channel-item .channel-name {
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .category {
+      font-size: 16px;
+      padding: 10px 20px;
+      background-color: #333;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin: 5px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .category:hover {
+      background-color: #00aaff;
+      box-shadow: 0 0 20px rgba(0, 170, 255, 0.8);
+      text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff;
+    }
+
+    /* Buttons */
+    .action-button {
+      padding: 12px 24px;
+      background-color: #00aaff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+      margin: 10px 0;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .action-button:hover {
+      background-color: #0099cc;
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+    }
+
+    /* Mobile Layout */
+    @media (max-width: 767px) {
+      .header {
+        padding: 10px;
+      }
+
+      .login-form {
+        width: 80%;
+      }
+
+      .video-container {
+        height: 200px;
+      }
+
+      .channel-drawer {
+        margin-bottom: 10px;
+      }
+
+      .categories {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+      }
+
+      .category {
+        width: 80%;
+        margin-bottom: 5px;
+      }
+    }
+
+    /* Desktop Layout */
+    @media (min-width: 768px) {
+      .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .video-container {
+        width: 70%;
+        height: 400px;
+      }
+
+      .channel-drawer {
+        width: 28%;
+        height: auto;
+      }
+
+      .categories {
+        flex-direction: row;
+      }
+
+      .category {
+        width: auto;
+        margin-left: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="login-page" class="login-page">
+    <div class="login-form">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <!-- IPTV Content -->
+  <div id="iptv-content" class="iptv-content">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="IPTV Logo">
+      </div>
+      <div class="center-section">
+        <button class="action-button">Comment Section</button>
+        <button class="action-button" onclick="showAddChannelForm()">Add Your Channel</button>
+      </div>
+      <div class="right-section">
+        <div class="username">JohnDoe</div>
+        <button class="action-button" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+      <!-- Video Player -->
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Player"></iframe>
+      </div>
+
+      <!-- Channel Drawer -->
+      <div class="channel-drawer">
+        <!-- Categories -->
+        <div class="categories">
+          <div class="category" onclick="showChannelList('CABLE')">Cable</div>
+          <div class="category" onclick="showChannelList('YOUTUBE')">YouTube</div>
+          <div class="category" onclick="showChannelList('MOVIES')">Movies</div>
+          <div class="category" onclick="showChannelList('RADIO')">Radio</div>
+          <div class="category" onclick="showChannelList('ADDED')">Added Channel</div>
+        </div>
+
+        <!-- Channel List -->
+        <div id="channel-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const channels = {
+      CABLE: [
+        { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8' },
+        { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8' },
+        { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8' },
+        { name: 'JUZT-TV BOX', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210639/tracks-v1a1/mono.ts.m3u8' }
+      ],
+      YOUTUBE: [
+        { name: 'YOUTUBE LIVE MOVIES (FINAL DESTINATION)', url: 'https://www.youtube.com/embed/uNhKfQJNFEw' },
+        { name: 'YOUTUBE LIVE MOVIES (BATMAN)', url: 'https://www.youtube.com/embed/XBvUft9a23s' }
+      ],
+      MOVIES: [
+        { name: 'May lamok sa loob ng kulambo', url: 'https://jungotvmedia.chanall.tv/jungotv/SolarMayLamokSaKulamboTGFULL10mbps/playlist_720p.m3u8' },
+        { name: 'Darna at Ding', url: 'https://jungotvmedia.chanall.tv/jungotv/SOLARDarnaAtDingFULL10mbps/playlist_720p.m3u8' }
+      ],
+      RADIO: [
+        { name: '106.3 Yes FM Dagupan', url: 'https://yesfmdagupan.radioca.st/' },
+        { name: '98.3 Love Radio Dagupan', url: 'https://loveradiodagupan.radioca.st/' }
+      ],
+      ADDED: []  // Placeholder for added channels
+    };
+
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('iptv-content').style.display = 'block';
+      } else {
+        alert('Please enter both username and password');
+      }
+    }
+
+    function logout() {
+      document.getElementById('iptv-content').style.display = 'none';
+      document.getElementById('login-page').style.display = 'block';
+    }
+
+    function showChannelList(category) {
+      const channelList = channels[category];
+      const channelContainer = document.getElementById('channel-list');
+      channelContainer.innerHTML = '';
+
+      channelList.forEach(channel => {
+        const channelElement = document.createElement('div');
+
+        channelElement.classList.add('channel-item');
+        channelElement.innerHTML = `
+          <div class="channel-name">${channel.name}</div>
+        `;
+        channelElement.onclick = () => {
+          window.open(channel.url, '_blank');
+        };
+
+        channelContainer.appendChild(channelElement);
+      });
+    }
+
+    function showAddChannelForm() {
+      const name = prompt("Enter Channel Name:");
+      const url = prompt("Enter Channel URL:");
+      if (name && url) {
+        channels['ADDED'].push({ name: name, url: url });
+        showChannelList('ADDED');
+      }
+    }
+  </script>
+
+</body>
+</html>
