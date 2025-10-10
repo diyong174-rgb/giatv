@@ -1,122 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>IPTV Layout</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: Arial, sans-serif; background:#111; color:#fff; }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      margin: 0;
-    }
-
-    /* Login Form Styling */
+    /* Login Page */
     .login-page {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #222;
+      display:flex; justify-content:center; align-items:center;
+      height:100vh; background-color:#222;
     }
-
     .login-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 300px;
-      padding: 20px;
-      background-color: #333;
-      border-radius: 10px;
+      display:flex; flex-direction:column; align-items:center;
+      width:100%; max-width:300px; padding:20px; background:#333; border-radius:10px;
     }
-
     .login-form input {
-      margin: 10px 0;
-      padding: 12px;
-      width: 100%;
-      border: 1px solid #444;
-      border-radius: 5px;
-      background-color: #222;
-      color: #fff;
+      margin:10px 0; padding:12px; width:100%;
+      border:1px solid #444; border-radius:5px; background:#222; color:#fff;
     }
-
     .login-form button {
-      padding: 12px;
-      background-color: #00aaff;
-      border: none;
-      border-radius: 5px;
-      width: 100%;
-      cursor: pointer;
-      color: #fff;
-      font-size: 16px;
+      padding:12px; background:#00aaff; border:none; border-radius:5px; width:100%;
+      cursor:pointer; color:#fff; font-size:16px;
     }
-
-    .login-form button:hover {
-      background-color: #0099cc;
-    }
+    .login-form button:hover { background:#0099cc; }
 
     /* IPTV Content */
-    .iptv-content {
-      display: none;
-    }
+    .iptv-content { display:none; }
 
     /* Header */
     .header {
       display: flex;
       justify-content: space-between;
-      padding: 10px 15px; /* Compress header padding */
-      background-color: #222;
+      align-items: center;
+      padding: 5px 10px; /* Compressed header */
+      background: #222;
       position: sticky;
       top: 0;
       z-index: 10;
     }
+    .logo img { width: 60px; } /* Smaller logo */
+    .center-section { display: flex; gap: 8px; align-items: center; font-size: 14px; }
+    .right-section { display: flex; gap: 10px; align-items: center; }
+    .username-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #333;
+      border: 1px solid #444;
+      font-size: 14px;
+    }
+    .logout-btn {
+      font-size: 14px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: #0056b3;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    .logout-btn:hover { background: #00aaff; }
 
-    .logo img {
-      width: 80px; /* Compress logo size */
+    /* Channel Drawer Header */
+    .channel-header {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #00aaff;
+      text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff;
     }
 
-    /* Video Player */
+    /* Video */
     .video-container {
       width: 100%;
-      height: 600px; /* Increased height for better visibility */
-      background-color: #333;
+      height: 600px;
+      background: #333;
       margin-bottom: 30px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
+    .video-container iframe { width: 100%; height: 100%; border: none; }
 
-    .video-container iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Channel Drawer */
+    /* Drawer */
     .channel-drawer {
       width: 100%;
-      background-color: #444;
+      background: #444;
       margin-top: 10px;
       padding: 10px;
       border-radius: 10px;
       overflow-x: auto;
       max-height: 500px;
     }
-
-    .channel-header {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
     .channel-item {
       display: flex;
       flex-direction: column;
@@ -124,154 +100,87 @@
       align-items: center;
       padding: 15px;
       margin: 5px;
-      background-color: #0056b3;
+      background: #0056b3;
       border-radius: 10px;
-      transition: all 0.3s ease;
+      transition: .3s ease;
       color: #fff;
     }
-
     .channel-item:hover {
-      background-color: #00aaff;
+      background: #00aaff;
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+      box-shadow: 0 0 10px rgba(0, 170, 255, .8);
       transform: scale(1.05);
       color: #000;
     }
-
     .channel-item .channel-name {
       font-size: 18px;
       font-weight: bold;
       text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff;
     }
 
-    /* Categories */
     .categories {
       display: flex;
       justify-content: flex-start;
       margin-top: 10px;
       flex-wrap: nowrap;
-      overflow-x: auto; /* Ensure horizontal scrolling */
+      overflow-x: auto;
     }
-
     .category {
       font-size: 14px;
       padding: 8px 16px;
-      background-color: #333;
+      background: #333;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: .3s ease;
       margin: 5px;
     }
+    .category:hover { background: #00aaff; }
 
-    .category:hover {
-      background-color: #00aaff;
-    }
-
-    /* Comment & Add Your Channel Button */
     button {
       font-size: 18px;
       padding: 12px;
       border-radius: 10px;
-      background-color: #0056b3;
+      background: #0056b3;
       color: #fff;
       margin: 10px;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      transition: .3s ease;
     }
-
     button:hover {
-      background-color: #00aaff;
-      box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
+      background: #00aaff;
+      box-shadow: 0 0 10px rgba(0, 170, 255, .8);
     }
 
-    /* Mobile Layout */
+    /* Mobile */
     @media (max-width: 767px) {
       .header {
-        padding: 5px 10px; /* Compress header for mobile */
-      }
-
-      .login-form {
-        width: 80%;
-      }
-
-      .video-container {
-        height: 300px; /* Smaller video player for mobile */
-      }
-
-      .channel-drawer {
-        margin-bottom: 10px;
-        padding: 0;
-        width: 100%;
-      }
-
-      .categories {
+        padding: 5px 10px;
         flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        width: 100%;
-        overflow-x: scroll; /* Allow horizontal scroll on mobile */
-      }
-
-      .category {
-        margin-right: 10px;
-      }
-
-      /* Channel item boxes on mobile */
-      .channel-item {
-        width: 100%; /* Adjust box width to fill the screen */
-        height: 80px; /* Adjust height for mobile */
-        margin-bottom: 10px;
-        padding: 10px;
-      }
-
-      /* Channel List should scroll vertically in mobile */
-      #channel-list {
-        max-height: 60vh;
-        overflow-y: scroll;
-      }
-
-      /* Logo Compression on Mobile */
-      .logo img {
-        width: 60px; /* Smaller logo on mobile */
-      }
-
-      /* Enlarged Comment and Add Your Channel Buttons on Mobile */
-      button {
-        padding: 15px;
-        font-size: 20px;
-      }
-    }
-
-    /* Desktop Layout */
-    @media (min-width: 768px) {
-      .content-wrapper {
-        display: flex;
         justify-content: space-between;
       }
+      .logo img { width: 50px; }
+      .center-section { font-size: 14px; gap: 5px; }
+      .right-section { display: flex; gap: 8px; }
+      .category { font-size: 12px; }
+      .video-container { height: 300px; }
+      .channel-drawer { margin-bottom: 10px; padding: 0; width: 100%; }
+      .categories { flex-direction: row; align-items: center; justify-content: flex-start; width: 100%; overflow-x: scroll; }
+      .category { margin-right: 10px; font-size: 12px; }
+      .channel-item { width: 100%; height: 80px; margin-bottom: 10px; padding: 10px; }
+      #channel-list { max-height: 60vh; overflow-y: scroll; }
+      .logo img { width: 50px; }
+      button { padding: 15px; font-size: 20px; }
+    }
 
-      .video-container {
-        width: 70%;
-        height: 600px;
-      }
-
-      .channel-drawer {
-        width: 28%;
-        height: auto;
-      }
-
-      .categories {
-        flex-direction: row;
-      }
-
-      .category {
-        width: auto;
-        margin-left: 10px;
-      }
-
-      /* Channel List should scroll vertically in desktop */
-      #channel-list {
-        max-height: 60vh;
-        overflow-y: scroll;
-      }
+    /* Desktop */
+    @media (min-width: 768px) {
+      .content-wrapper { display: flex; justify-content: space-between; gap: 12px; }
+      .video-container { width: 70%; height: 600px; }
+      .channel-drawer { width: 28%; height: auto; }
+      .categories { flex-direction: row; }
+      .category { width: auto; margin-left: 10px; }
+      #channel-list { max-height: 60vh; overflow-y: scroll; }
     }
   </style>
 </head>
@@ -279,12 +188,12 @@
 
   <!-- Login Page -->
   <div id="login-page" class="login-page">
-    <div class="login-form">
+    <form class="login-form" onsubmit="event.preventDefault(); login();">
       <h2>Login</h2>
-      <input type="text" id="username" placeholder="Username" />
-      <input type="password" id="password" placeholder="Password" />
-      <button onclick="login()">Login</button>
-    </div>
+      <input type="text" id="username" placeholder="Username" autocomplete="username"/>
+      <input type="password" id="password" placeholder="Password" autocomplete="current-password"/>
+      <button type="submit">Login</button>
+    </form>
   </div>
 
   <!-- IPTV Content -->
@@ -294,26 +203,30 @@
       <div class="logo">
         <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="IPTV Logo">
       </div>
+
       <div class="center-section">
-        <button>Comment Section</button>
-        <button onclick="showAddChannelForm()">Add Your Channel</button>
+        <button>Comment</button>
+        <button onclick="showAddChannelForm()">+ Channel</button>
       </div>
+
       <div class="right-section">
-        <div class="username">JohnDoe</div>
+        <div id="display-username" class="username-pill">@user</div>
         <button class="logout-btn" onclick="logout()">Logout</button>
       </div>
     </div>
 
-    <!-- Content Wrapper -->
+    <!-- Channel Drawer Header with Username -->
+    <div class="channel-header">
+      Welcome, <span id="display-username-channel"></span>!
+    </div>
+
+    <!-- Content -->
     <div class="content-wrapper">
-      <!-- Video Player -->
       <div class="video-container" id="video-player">
-        <!-- Video content will load here -->
+        <!-- video here -->
       </div>
 
-      <!-- Channel Drawer -->
       <div class="channel-drawer">
-        <!-- Categories -->
         <div class="categories">
           <div class="category" onclick="showChannelList('CABLE')">Cable</div>
           <div class="category" onclick="showChannelList('YOUTUBE')">YouTube</div>
@@ -321,99 +234,132 @@
           <div class="category" onclick="showChannelList('RADIO')">Radio</div>
           <div class="category" onclick="showChannelList('ADDED')">Added Channel</div>
         </div>
-
-        <!-- Channel List -->
         <div id="channel-list"></div>
       </div>
     </div>
   </div>
 
+  <!-- Players -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
 
   <script>
-    // Function to login
+    // === AUTH / USERNAME ===
+    const USERNAME_KEY = 'iptvUsername';
+
+    function setUsernameDisplay(name) {
+      const el = document.getElementById('display-username');
+      const elChannel = document.getElementById('display-username-channel');
+      // textContent to avoid any HTML injection
+      el.textContent = name ? name : '@user';
+      elChannel.textContent = name ? name : '@user'; // Display username in channel header too
+    }
+
+    function showApp() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('iptv-content').style.display = 'block';
+    }
+
+    function showLogin() {
+      document.getElementById('iptv-content').style.display = 'none';
+      document.getElementById('login-page').style.display = 'flex';
+    }
+
     function login() {
-      const username = document.getElementById('username').value;
+      const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
 
-      if (username && password) {
-        document.getElementById('login-page').style.display = 'none';
-        document.getElementById('iptv-content').style.display = 'block';
-      } else {
+      if (!username || !password) {
         alert('Please enter both username and password');
+        return;
       }
+
+      // Save username to localStorage
+      localStorage.setItem(USERNAME_KEY, username);
+      setUsernameDisplay(username);
+      showApp();
     }
 
-    // Function to logout
     function logout() {
-      document.getElementById('iptv-content').style.display = 'none';
-      document.getElementById('login-page').style.display = 'block';
+      localStorage.removeItem(USERNAME_KEY);
+      setUsernameDisplay('');
+      showLogin();
     }
 
-    // Play selected channel
-    function playChannel(channel) {
-      const videoElement = document.createElement('video');
-      videoElement.controls = true;
-      videoElement.style.width = '100%'; // Ensure the video fits within the container
-      document.getElementById('video-player').innerHTML = ''; // Clear previous player
-      document.getElementById('video-player').appendChild(videoElement);
+    // Auto-login if username exists
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem(USERNAME_KEY);
+      if (saved) {
+        setUsernameDisplay(saved);
+        showApp();
+      } else {
+        showLogin();
+      }
+    });
 
-      // Check if it's HLS (m3u8)
-      if (channel.type === 'hls' && Hls.isSupported()) {
-        const hls = new Hls();
-        hls.loadSource(channel.url);
-        hls.attachMedia(videoElement);
-      }
-      // Check if it's MPD (DASH) with Key
-      else if (channel.type === 'mpd') {
-        const dashPlayer = dashjs.MediaPlayer().create();
-        dashPlayer.initialize(videoElement, channel.url, true);
-      }
-      // Handle YouTube
-      else if (channel.type === 'youtube') {
+    // === PLAYER ===
+    function playChannel(channel) {
+      const container = document.getElementById('video-player');
+      container.innerHTML = '';
+      if (channel.type === 'youtube') {
         const iframe = document.createElement('iframe');
         iframe.src = channel.url;
-        iframe.width = '100%';
-        iframe.height = '100%';
-        document.getElementById('video-player').innerHTML = ''; // Clear previous player
-        document.getElementById('video-player').appendChild(iframe);
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        container.appendChild(iframe);
+        return;
+      }
+
+      const video = document.createElement('video');
+      video.controls = true;
+      video.style.width = '100%';
+      container.appendChild(video);
+
+      if (channel.type === 'hls' && window.Hls && Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(channel.url);
+        hls.attachMedia(video);
+      } else if (channel.type === 'mpd' && window.dashjs) {
+        const dashPlayer = dashjs.MediaPlayer().create();
+        dashPlayer.initialize(video, channel.url, true);
+        // If you need Widevine keys etc., configure here.
       } else {
         alert('Stream type is unsupported or invalid.');
       }
     }
 
-    // Display the list of channels
     function showChannelList(category) {
-      const channelList = channels[category];
-      const channelContainer = document.getElementById('channel-list');
-      channelContainer.innerHTML = ''; // Clear previous list
-
-      // Loop through the channels and create a clickable list
-      channelList.forEach(channel => {
-        const channelElement = document.createElement('div');
-        channelElement.classList.add('channel-item');
-        channelElement.innerHTML = `
-          <div class="channel-name">${channel.name}</div>
-        `;
-        channelElement.onclick = () => {
-          playChannel(channel); // Play the clicked channel
-        };
-        channelContainer.appendChild(channelElement);
+      const channelList = channels[category] || [];
+      const wrap = document.getElementById('channel-list');
+      wrap.innerHTML = '';
+      channelList.forEach(ch => {
+        const el = document.createElement('div');
+        el.className = 'channel-item';
+        el.innerHTML = `<div class="channel-name">${ch.name}</div>`;
+        el.onclick = () => playChannel(ch);
+        wrap.appendChild(el);
       });
     }
 
-    // Function to add a new channel
     function showAddChannelForm() {
       const name = prompt("Enter Channel Name:");
       const url = prompt("Enter Channel URL:");
       if (name && url) {
-        channels['ADDED'].push({ name: name, url: url });
+        channels.ADDED.push({ name, url, type: guessType(url) });
         showChannelList('ADDED');
       }
     }
 
-    // Define channels
+    function guessType(url) {
+      if (!url) return 'hls';
+      if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
+      if (url.endsWith('.m3u8')) return 'hls';
+      if (url.endsWith('.mpd')) return 'mpd';
+      if (url.startsWith('http') && (url.endsWith('.mp3') || url.includes('radio'))) return 'mp3';
+      return 'hls';
+    }
+
+    // === CHANNELS ===
     const channels = {
        CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
@@ -542,7 +488,8 @@
       ]
     };  
 
+    // optional: default load a category
+    document.addEventListener('DOMContentLoaded', () => showChannelList('CABLE'));
   </script>
-
 </body>
 </html>
