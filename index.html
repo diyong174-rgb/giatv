@@ -72,7 +72,7 @@
     .header {
       display: flex;
       justify-content: space-between;
-      padding: 20px;
+      padding: 10px 15px; /* Compress header padding */
       background-color: #222;
       position: sticky;
       top: 0;
@@ -80,13 +80,13 @@
     }
 
     .logo img {
-      width: 100px;
+      width: 80px; /* Compress logo size */
     }
 
     /* Video Player */
     .video-container {
       width: 100%;
-      height: 350px; /* Fixed semi-rectangle size */
+      height: 600px; /* Increased height for better visibility */
       background-color: #333;
       margin-bottom: 30px;
       display: flex;
@@ -95,19 +95,19 @@
     }
 
     .video-container iframe {
-      width: 80%; /* Video will be 80% of container width */
+      width: 100%;
       height: 100%;
       border: none;
     }
 
     /* Channel Drawer */
     .channel-drawer {
-      width: 250px;
+      width: 100%;
       background-color: #444;
-      margin-top: 20px;
-      padding: 15px;
+      margin-top: 10px;
+      padding: 10px;
       border-radius: 10px;
-      overflow-y: auto;
+      overflow-x: auto;
       max-height: 500px;
     }
 
@@ -123,7 +123,7 @@
       justify-content: center;
       align-items: center;
       padding: 15px;
-      margin-bottom: 10px;
+      margin: 5px;
       background-color: #0056b3;
       border-radius: 10px;
       transition: all 0.3s ease;
@@ -148,9 +148,9 @@
     .categories {
       display: flex;
       justify-content: flex-start;
-      margin-top: 20px;
+      margin-top: 10px;
       flex-wrap: nowrap;
-      overflow-x: auto;
+      overflow-x: auto; /* Ensure horizontal scrolling */
     }
 
     .category {
@@ -186,7 +186,7 @@
     /* Mobile Layout */
     @media (max-width: 767px) {
       .header {
-        padding: 10px;
+        padding: 5px 10px; /* Compress header for mobile */
       }
 
       .login-form {
@@ -194,7 +194,7 @@
       }
 
       .video-container {
-        height: 250px; /* Video Player becomes smaller on mobile */
+        height: 300px; /* Smaller video player for mobile */
       }
 
       .channel-drawer {
@@ -203,13 +203,12 @@
         width: 100%;
       }
 
-      /* Categories horizontal scroll on mobile */
       .categories {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
         width: 100%;
-        overflow-x: scroll;
+        overflow-x: scroll; /* Allow horizontal scroll on mobile */
       }
 
       .category {
@@ -232,7 +231,7 @@
 
       /* Logo Compression on Mobile */
       .logo img {
-        width: 80px; /* Smaller logo on mobile */
+        width: 60px; /* Smaller logo on mobile */
       }
 
       /* Enlarged Comment and Add Your Channel Buttons on Mobile */
@@ -251,7 +250,7 @@
 
       .video-container {
         width: 70%;
-        height: 350px;
+        height: 600px;
       }
 
       .channel-drawer {
@@ -266,6 +265,12 @@
       .category {
         width: auto;
         margin-left: 10px;
+      }
+
+      /* Channel List should scroll vertically in desktop */
+      #channel-list {
+        max-height: 60vh;
+        overflow-y: scroll;
       }
     }
   </style>
@@ -360,7 +365,7 @@
         hls.loadSource(channel.url);
         hls.attachMedia(videoElement);
       }
-      // Check if it's MPD (DASH)
+      // Check if it's MPD (DASH) with Key
       else if (channel.type === 'mpd') {
         const dashPlayer = dashjs.MediaPlayer().create();
         dashPlayer.initialize(videoElement, channel.url, true);
@@ -410,7 +415,7 @@
 
     // Define channels
     const channels = {
-      CABLE: [
+       CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },	 	   
   { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' }, 
