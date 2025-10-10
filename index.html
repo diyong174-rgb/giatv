@@ -102,13 +102,13 @@
 
     /* Channel Drawer */
     .channel-drawer {
-      width: 100%;
+      width: 250px;
       background-color: #444;
       margin-top: 20px;
       padding: 15px;
       border-radius: 10px;
-      overflow-x: auto; /* Allows horizontal scrolling */
-      white-space: nowrap; /* Prevents wrapping */
+      overflow-y: auto;
+      max-height: 500px;
     }
 
     .channel-header {
@@ -118,18 +118,21 @@
     }
 
     .channel-item {
-      display: inline-block;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       padding: 15px;
-      margin-right: 10px;
+      margin-bottom: 10px;
       background-color: #0056b3;
       border-radius: 10px;
       transition: all 0.3s ease;
       color: #fff;
-      cursor: pointer;
     }
 
     .channel-item:hover {
       background-color: #00aaff;
+      cursor: pointer;
       box-shadow: 0 0 10px rgba(0, 170, 255, 0.8);
       transform: scale(1.05);
       color: #000;
@@ -146,8 +149,8 @@
       display: flex;
       justify-content: flex-start;
       margin-top: 20px;
-      flex-wrap: nowrap; /* Prevents wrapping on mobile */
-      overflow-x: auto; /* Horizontal scrolling for categories */
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
 
     .category {
@@ -181,6 +184,8 @@
       /* Channel drawer on mobile: horizontal layout */
       .channel-drawer {
         margin-bottom: 10px;
+        padding: 0;
+        width: 100%;
       }
 
       /* Categories horizontal scroll on mobile */
@@ -189,6 +194,7 @@
         align-items: center;
         justify-content: flex-start;
         width: 100%;
+        overflow-x: scroll;
       }
 
       .category {
@@ -197,12 +203,20 @@
 
       /* Channel item boxes on mobile */
       .channel-item {
-        width: 150px; /* Narrower boxes */
+        width: 200px; /* Adjust box width */
+        height: 50px; /* Maintain height */
         margin-right: 10px;
+        padding: 10px;
+      }
+
+      /* Channel List should scroll vertically in mobile */
+      #channel-list {
+        max-height: 60vh;
+        overflow-y: scroll;
       }
     }
 
-    /* Desktop Layout (No Changes Here) */
+    /* Desktop Layout */
     @media (min-width: 768px) {
       .content-wrapper {
         display: flex;
@@ -498,5 +512,6 @@
     };  
 
   </script>
+
 </body>
 </html>
