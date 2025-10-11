@@ -3,188 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IPTV Layout</title>
+  <title>3rstv</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: Arial, sans-serif; background:#111; color:#fff; }
 
     /* Login Page */
-    .login-page {
-      display:flex; justify-content:center; align-items:center;
-      height:100vh; background-color:#222;
-    }
-    .login-form {
-      display:flex; flex-direction:column; align-items:center;
-      width:100%; max-width:300px; padding:20px; background:#333; border-radius:10px;
-    }
-    .login-form input {
-      margin:10px 0; padding:12px; width:100%;
-      border:1px solid #444; border-radius:5px; background:#222; color:#fff;
-    }
-    .login-form button {
-      padding:12px; background:#00aaff; border:none; border-radius:5px; width:100%;
-      cursor:pointer; color:#fff; font-size:16px;
-    }
+    .login-page { display:flex; justify-content:center; align-items:center; height:100vh; background-color:#222; }
+    .login-form { display:flex; flex-direction:column; align-items:center; width:100%; max-width:300px; padding:20px; background:#333; border-radius:10px; }
+    .login-form input { margin:10px 0; padding:12px; width:100%; border:1px solid #444; border-radius:5px; background:#222; color:#fff; }
+    .login-form button { padding:12px; background:#00aaff; border:none; border-radius:5px; width:100%; cursor:pointer; color:#fff; font-size:16px; }
     .login-form button:hover { background:#0099cc; }
 
     /* IPTV Content */
     .iptv-content { display:none; }
 
     /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 5px 10px; /* More compressed header */
-      background: #222;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .logo img { width: 50px; } /* Smaller logo for mobile */
-    .center-section { display: flex; gap: 8px; align-items: center; font-size: 12px; }
-    .right-section { display: flex; gap: 8px; align-items: center; }
-    .username-pill {
-      padding: 6px 8px;
-      border-radius: 999px;
-      background: #333;
-      border: 1px solid #444;
-      font-size: 12px;
-    }
-    .logout-btn {
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      background: #0056b3;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-    .logout-btn:hover { background: #00aaff; }
+    .header { display:flex; justify-content:space-between; align-items:center; padding:5px 10px; background:#222; position:sticky; top:0; z-index:10; }
+    .logo img { width:50px; }
+    .center-section { display:flex; gap:8px; align-items:center; font-size:12px; }
+    .right-section { display:flex; gap:8px; align-items:center; }
+    .username-pill { padding:6px 8px; border-radius:999px; background:#333; border:1px solid #444; font-size:12px; }
+    .logout-btn { font-size:12px; padding:6px 10px; border-radius:8px; background:#0056b3; color:#fff; border:none; cursor:pointer; }
+    .logout-btn:hover { background:#00aaff; }
 
     /* Channel Drawer Header */
-    .channel-header {
-      font-size: 16px; /* Smaller font */
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #00aaff;
-      text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff;
-    }
+    .channel-header { font-size:16px; font-weight:bold; margin:10px 0; color:#00aaff; text-shadow:0 0 10px #00aaff, 0 0 20px #00aaff; }
 
     /* Video */
-    .video-container {
-      width: 70%;
-      height: 600px;
-      background: #333;
-      margin-bottom: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .video-container iframe { width: 100%; height: 100%; border: none; }
+    .video-container { width:70%; height:600px; background:#333; margin-bottom:30px; display:flex; justify-content:center; align-items:center; position:relative; border-radius:10px; overflow:hidden; }
+    .video-container iframe, .video-container video { width:100%; height:100%; border:none; }
+    .video-placeholder { position:absolute; inset:0; background-size:cover; background-position:center; opacity:.25; }
 
     /* Drawer */
-    .channel-drawer {
-      width: 28%;
-      background: #444;
-      margin-top: 0; /* Align it properly to the top */
-      padding: 10px;
-      border-radius: 10px;
-      overflow-x: auto;
-      max-height: 100%; /* Ensure the drawer fills the available space */
-      position: relative;
-    }
+    .channel-drawer { width:28%; background:#444; margin-top:0; padding:10px; border-radius:10px; overflow-x:auto; max-height:100%; position:relative; }
 
     /* Channel Item Styling */
-    .channel-item {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-      margin: 5px;
-      background: #0056b3;
-      border-radius: 10px;
-      transition: .3s ease;
-      color: #fff;
-    }
-    .channel-item:hover {
-      background: #00aaff;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 170, 255, .8);
-      transform: scale(1.05);
-      color: #000;
-    }
-    .channel-item .channel-name {
-      font-size: 18px;
-      font-weight: bold;
-      text-shadow: 0 0 10px #00aaff, 0 0 20px #00aaff;
-    }
+    .channel-item { display:flex; flex-direction:column; justify-content:center; align-items:center; padding:15px; margin:5px; background:#0056b3; border-radius:10px; transition:.3s ease; color:#fff; }
+    .channel-item:hover { background:#00aaff; cursor:pointer; box-shadow:0 0 10px rgba(0,170,255,.8); transform:scale(1.05); color:#000; }
+    .channel-item .channel-name { font-size:18px; font-weight:bold; text-shadow:0 0 10px #00aaff, 0 0 20px #00aaff; text-align:center; }
 
-    .categories {
-      display: flex;
-      justify-content: flex-start;
-      margin-top: 10px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-    }
-    .category {
-      font-size: 14px;
-      padding: 8px 16px;
-      background: #333;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: .3s ease;
-      margin: 5px;
-    }
-    .category:hover { background: #00aaff; }
+    .categories { display:flex; justify-content:flex-start; margin-top:10px; flex-wrap:nowrap; overflow-x:auto; }
+    .category { font-size:14px; padding:8px 16px; background:#333; border-radius:5px; cursor:pointer; transition:.3s ease; margin:5px; white-space:nowrap; }
+    .category:hover { background:#00aaff; }
 
-    button {
-      font-size: 18px;
-      padding: 12px;
-      border-radius: 10px;
-      background: #0056b3;
-      color: #fff;
-      margin: 10px;
-      border: none;
-      cursor: pointer;
-      transition: .3s ease;
-    }
-    button:hover {
-      background: #00aaff;
-      box-shadow: 0 0 10px rgba(0, 170, 255, .8);
-    }
+    button { font-size:18px; padding:12px; border-radius:10px; background:#0056b3; color:#fff; margin:10px; border:none; cursor:pointer; transition:.3s ease; }
+    button:hover { background:#00aaff; box-shadow:0 0 10px rgba(0,170,255,.8); }
 
     /* Mobile */
     @media (max-width: 767px) {
-      .header {
-        padding: 5px 10px;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .logo img { width: 50px; }
-      .center-section { font-size: 12px; gap: 5px; }
-      .right-section { display: flex; gap: 8px; align-items: center; }
-      .category { font-size: 12px; }
-      .video-container { height: 300px; }
-      .channel-drawer { margin-bottom: 10px; padding: 0; width: 100%; }
-      .categories { flex-direction: row; align-items: center; justify-content: flex-start; width: 100%; overflow-x: scroll; }
-      .category { margin-right: 10px; font-size: 12px; }
-      .channel-item { width: 100%; height: 80px; margin-bottom: 10px; padding: 10px; }
-      #channel-list { max-height: 60vh; overflow-y: scroll; }
-      .logo img { width: 50px; }
-      button { padding: 15px; font-size: 20px; }
+      .header { padding:5px 10px; flex-direction:row; justify-content:space-between; align-items:center; }
+      .logo img { width:50px; }
+      .center-section { font-size:12px; gap:5px; }
+      .right-section { display:flex; gap:8px; align-items:center; }
+      .category { font-size:12px; }
+      .video-container { width:100%; height:300px; }
+      .channel-drawer { margin-bottom:10px; padding:0; width:100%; }
+      .categories { flex-direction:row; align-items:center; justify-content:flex-start; width:100%; overflow-x:scroll; }
+      .category { margin-right:10px; font-size:12px; }
+      .channel-item { width:100%; height:80px; margin-bottom:10px; padding:10px; }
+      #channel-list { max-height:60vh; overflow-y:scroll; }
+      button { padding:15px; font-size:20px; }
+      .content-wrapper { display:block; padding:10px; }
     }
 
     /* Desktop */
     @media (min-width: 768px) {
-      .content-wrapper { display: flex; justify-content: space-between; gap: 12px; }
-      .video-container { width: 70%; height: 600px; }
-      .channel-drawer { width: 28%; height: auto; }
-      .categories { flex-direction: row; }
-      .category { width: auto; margin-left: 10px; }
-      #channel-list { max-height: 60vh; overflow-y: scroll; }
+      .content-wrapper { display:flex; justify-content:space-between; gap:12px; padding:10px; }
+      .video-container { width:70%; height:600px; }
+      .channel-drawer { width:28%; height:auto; }
+      .categories { flex-direction:row; }
+      .category { width:auto; margin-left:10px; }
+      #channel-list { max-height:60vh; overflow-y:scroll; }
     }
   </style>
 </head>
@@ -209,7 +99,7 @@
       </div>
 
       <div class="center-section">
-        <button>Comment</button>
+        <button onclick="alert('Comments coming soon')">Comment</button>
         <button onclick="showAddChannelForm()">+ Channel</button>
       </div>
 
@@ -227,7 +117,7 @@
     <!-- Content -->
     <div class="content-wrapper">
       <div class="video-container" id="video-player">
-        <!-- video here -->
+        <!-- player inserted here -->
       </div>
 
       <div class="channel-drawer">
@@ -246,6 +136,7 @@
   <!-- Players -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  <script src="https://unpkg.com/shaka-player@2.5.0/dist/shaka-player.compiled.js"></script>
 
   <script>
     // === AUTH / USERNAME ===
@@ -255,7 +146,7 @@
       const el = document.getElementById('display-username');
       const elChannel = document.getElementById('display-username-channel');
       el.textContent = name ? name : '@user';
-      elChannel.textContent = name ? name : '@user'; // Display username in channel header too
+      elChannel.textContent = name ? name : '@user';
     }
 
     function showApp() {
@@ -277,7 +168,6 @@
         return;
       }
 
-      // Save username to localStorage
       localStorage.setItem(USERNAME_KEY, username);
       setUsernameDisplay(username);
       showApp();
@@ -289,81 +179,71 @@
       showLogin();
     }
 
-    // Auto-login if username exists
     document.addEventListener('DOMContentLoaded', () => {
       const saved = localStorage.getItem(USERNAME_KEY);
-      if (saved) {
-        setUsernameDisplay(saved);
-        showApp();
-      } else {
-        showLogin();
+      if (saved) { 
+        setUsernameDisplay(saved); 
+        showApp(); 
+      } else { 
+        showLogin(); 
       }
+
+      // Automatically show the channel list for 'CABLE' when the page loads
+      showChannelList('CABLE');
     });
 
-    // === PLAYER ===
+    // === MEDIA PLAYER CORE ===
+    let currentPlayer = null;
+
+    function destroyPlayers() {
+      if (currentPlayer) { try { currentPlayer.destroy(); } catch(e){} currentPlayer = null; }
+    }
+
     function playChannel(channel) {
       const container = document.getElementById('video-player');
+      destroyPlayers();
       container.innerHTML = '';
-      if (channel.type === 'youtube') {
-        const iframe = document.createElement('iframe');
-        iframe.src = channel.url;
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true;
-        container.appendChild(iframe);
+
+      // Create video element
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.autoplay = true;
+      video.preload = 'auto';
+      container.appendChild(video);
+
+      if (channel.type === 'mpd') {
+        // Shaka Player for MPD with DRM
+        currentPlayer = new shaka.Player(video);
+        currentPlayer.configure({
+          drm: {
+            clearKeys: {
+              [channel.keyId]: channel.key
+            }
+          }
+        });
+        currentPlayer.load(channel.url).then(() => {
+          console.log('MPD with DRM loaded successfully');
+        }).catch(error => {
+          console.error('Error loading MPD with DRM:', error);
+        });
         return;
       }
 
-      const video = document.createElement('video');
-      video.controls = true;
-      video.style.width = '100%';
-      container.appendChild(video);
-
-      if (channel.type === 'hls' && window.Hls && Hls.isSupported()) {
+      // Other types (hls, youtube, etc.)
+      if (channel.type === 'hls') {
         const hls = new Hls();
         hls.loadSource(channel.url);
         hls.attachMedia(video);
-      } else if (channel.type === 'mpd' && window.dashjs) {
-        const dashPlayer = dashjs.MediaPlayer().create();
-        dashPlayer.initialize(video, channel.url, true);
-      } else {
-        alert('Stream type is unsupported or invalid.');
+        return;
       }
-    }
 
-    function showChannelList(category) {
-      const channelList = channels[category] || [];
-      const wrap = document.getElementById('channel-list');
-      wrap.innerHTML = '';
-      channelList.forEach(ch => {
-        const el = document.createElement('div');
-        el.className = 'channel-item';
-        el.innerHTML = `<div class="channel-name">${ch.name}</div>`;
-        el.onclick = () => playChannel(ch);
-        wrap.appendChild(el);
-      });
-    }
-
-    function showAddChannelForm() {
-      const name = prompt("Enter Channel Name:");
-      const url = prompt("Enter Channel URL:");
-      if (name && url) {
-        channels.ADDED.push({ name, url, type: guessType(url) });
-        showChannelList('ADDED');
-      }
-    }
-
-    function guessType(url) {
-      if (!url) return 'hls';
-      if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
-      if (url.endsWith('.m3u8')) return 'hls';
-      if (url.endsWith('.mpd')) return 'mpd';
-      if (url.startsWith('http') && (url.endsWith('.mp3') || url.includes('radio'))) return 'mp3';
-      return 'hls';
+      // Handle other types...
     }
 
     // === CHANNELS ===
     const channels = {
-     CABLE: [
+      CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },	 	   
   { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' }, 
@@ -488,10 +368,24 @@
   { name: '102.7 Star FM', url: 'https://stream.zeno.fm/69b1kf7q0y5tv', type: 'mp3', logo: 'https://static.mytuner.mobi/media/tvos_radios/848/star-fm-manila.c6a245b5.png' },
   { name: '106.7 Energy FM', url: 'http://ph-icecast.eradioportal.com:8000/energyfm_manila', type: 'mp3', logo: 'https://static.mytuner.mobi/media/tvos_radios/PG5RgCjKLe.png' } 
       ]
-    };   
+    };  
 
-    // optional: default load a category
-    document.addEventListener('DOMContentLoaded', () => showChannelList('CABLE'));
+    // Function to show channel list with autoplay on channel selection
+    function showChannelList(category) {
+      const channelList = channels[category] || [];
+      const wrap = document.getElementById('channel-list');
+      wrap.innerHTML = '';
+      channelList.forEach(ch => {
+        const el = document.createElement('div');
+        el.className = 'channel-item';
+        el.innerHTML = `<div class="channel-name">${ch.name}</div>`;
+        el.onclick = () => {
+          playChannel(ch); // Autoplay when clicked
+        };
+        wrap.appendChild(el);
+      });
+    }
+
   </script>
 </body>
 </html>
