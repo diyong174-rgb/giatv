@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3rstv</title>
+  <title>3RsTV</title>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: Arial, sans-serif; background:#111; color:#fff; }
@@ -52,18 +52,19 @@
 
     /* Mobile */
     @media (max-width: 767px) {
-      .header { padding: 5px 10px; flex-direction: row; justify-content: space-between; align-items: center; font-size: 10px; }
-      .logo img { width: 40px; }
-      .center-section { display: flex; gap: 5px; font-size: 10px; }
-      .right-section { display: flex; gap: 5px; align-items: center; }
-      .username-pill { font-size: 10px; padding: 4px 6px; }
-      .logout-btn { font-size: 10px; padding: 4px 6px; }
-      button { font-size: 14px; padding: 10px 12px; }
-      .categories { display: flex; justify-content: flex-start; gap: 10px; flex-wrap: nowrap; overflow-x: auto; }
-      .category { font-size: 12px; padding: 6px 12px; text-align: center; }
-      .channel-drawer { margin-bottom: 10px; padding: 0; width: 100%; height: auto; }
-      #channel-list { max-height: 50vh; overflow-y: scroll; margin-top: 10px; }
-      .video-container { width: 100%; height: 300px; margin-bottom: 10px; }
+      .header { padding:5px 10px; flex-direction:row; justify-content:space-between; align-items:center; }
+      .logo img { width:50px; }
+      .center-section { font-size:12px; gap:5px; }
+      .right-section { display:flex; gap:8px; align-items:center; }
+      .category { font-size:12px; }
+      .video-container { width:100%; height:300px; }
+      .channel-drawer { margin-bottom:10px; padding:0; width:100%; }
+      .categories { flex-direction:row; align-items:center; justify-content:flex-start; width:100%; overflow-x:scroll; }
+      .category { margin-right:10px; font-size:12px; }
+      .channel-item { width:100%; height:80px; margin-bottom:10px; padding:10px; }
+      #channel-list { max-height:60vh; overflow-y:scroll; }
+      button { padding:15px; font-size:20px; }
+      .content-wrapper { display:block; padding:10px; }
     }
 
     /* Desktop */
@@ -75,208 +76,132 @@
       .category { width:auto; margin-left:10px; }
       #channel-list { max-height:60vh; overflow-y:scroll; }
     }
+
+    /* Comment Section */
+    .comment-section { margin-top:20px; padding:10px; background:#333; border-radius:10px; }
+    .comment-box { width:100%; padding:10px; background:#444; border:1px solid #555; border-radius:5px; color:#fff; }
+    .comment-button { background:#00aaff; border:none; padding:10px 15px; color:#fff; font-size:14px; border-radius:5px; cursor:pointer; margin-top:5px; }
+    .comment-button:hover { background:#0099cc; }
+    .comments-list { margin-top:10px; max-height:150px; overflow-y:auto; background:#222; padding:10px; border-radius:5px; }
+    .comment-item { margin-bottom:8px; border-bottom:1px solid #555; padding-bottom:4px; }
+    .comment-username { font-weight:bold; color:#00aaff; }
+    .comment-time { font-size:12px; color:#777; }
   </style>
 </head>
 <body>
 
-  <!-- Login Page -->
-  <div id="login-page" class="login-page">
-    <form class="login-form" onsubmit="event.preventDefault(); login();">
-      <h2>Login</h2>
-      <input type="text" id="username" placeholder="Username" autocomplete="username"/>
-      <input type="password" id="password" placeholder="Password" autocomplete="current-password"/>
-      <button type="submit">Login</button>
-    </form>
-  </div>
+<!-- Login Page -->
+<div id="login-page" class="login-page">
+  <form class="login-form" onsubmit="event.preventDefault(); login();">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username" autocomplete="username"/>
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password"/>
+    <button type="submit">Login</button>
+  </form>
+</div>
 
-  <!-- IPTV Content -->
-  <div id="iptv-content" class="iptv-content">
-    <!-- Header -->
-    <div class="header">
-      <div class="logo">
-        <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="IPTV Logo">
-      </div>
-
-      <div class="center-section">
-        <button onclick="alert('Comments coming soon')">Comment</button>
-        <button onclick="showAddChannelForm()">+ Channel</button>
-      </div>
-
-      <div class="right-section">
-        <div id="display-username" class="username-pill">@user</div>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-      </div>
+<!-- IPTV Content -->
+<div id="iptv-content" class="iptv-content">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="IPTV Logo">
     </div>
 
-    <!-- Channel Drawer Header with Username -->
-    <div class="channel-header">
-      Welcome, <span id="display-username-channel"></span>!
+    <div class="center-section">
+      <button onclick="alert('Comments coming soon')">Comment</button>
+      <button onclick="showAddChannelForm()">+ Channel</button>
     </div>
 
-    <!-- Content -->
-    <div class="content-wrapper">
-      <div class="video-container" id="video-player">
-        <!-- player inserted here -->
-      </div>
-
-      <div class="channel-drawer">
-        <div class="categories">
-          <div class="category" onclick="showChannelList('CABLE')">Cable</div>
-          <div class="category" onclick="showChannelList('YOUTUBE')">YouTube</div>
-          <div class="category" onclick="showChannelList('MOVIES')">Movies</div>
-          <div class="category" onclick="showChannelList('RADIO')">Radio</div>
-          <div class="category" onclick="showChannelList('ADDED')">Added Channel</div>
-        </div>
-        <div id="channel-list"></div>
-      </div>
+    <div class="right-section">
+      <div id="display-username" class="username-pill">@user</div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </div>
 
-  <!-- Players -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
-  <script src="https://unpkg.com/shaka-player@2.5.0/dist/shaka-player.compiled.js"></script>
+  <!-- Channel Drawer Header with Username -->
+  <div class="channel-header">
+    Welcome, <span id="display-username-channel"></span>!
+  </div>
 
-  <script>
-    // === AUTH / USERNAME ===
-    const USERNAME_KEY = 'iptvUsername';
+  <!-- Content -->
+  <div class="content-wrapper">
+    <div class="video-container" id="video-player">
+      <!-- player inserted here -->
+    </div>
 
-    function setUsernameDisplay(name) {
-      const el = document.getElementById('display-username');
-      const elChannel = document.getElementById('display-username-channel');
-      el.textContent = name ? name : '@user';
-      elChannel.textContent = name ? name : '@user';
+    <div class="channel-drawer">
+      <div class="categories">
+        <div class="category" onclick="showChannelList('CABLE')">Cable</div>
+        <div class="category" onclick="showChannelList('YOUTUBE')">YouTube</div>
+        <div class="category" onclick="showChannelList('MOVIES')">Movies</div>
+        <div class="category" onclick="showChannelList('RADIO')">Radio</div>
+        <div class="category" onclick="showChannelList('ADDED')">Added Channel</div>
+      </div>
+      <div id="channel-list"></div>
+
+      <!-- Comment Section -->
+      <div class="comment-section">
+        <textarea id="comment-box" class="comment-box" placeholder="Write a comment..."></textarea>
+        <button class="comment-button" onclick="postComment()">Post Comment</button>
+        <div id="comments-list" class="comments-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+<script src="https://unpkg.com/shaka-player/dist/shaka-player.compiled.js"></script>
+
+<script>
+  // === AUTH / USERNAME ===
+  const USERNAME_KEY = 'iptvUsername';
+
+  function setUsernameDisplay(name) {
+    const el = document.getElementById('display-username');
+    const elChannel = document.getElementById('display-username-channel');
+    el.textContent = name ? name : '@user';
+    elChannel.textContent = name ? name : '@user';
+  }
+
+  function showApp() {
+    document.getElementById('login-page').style.display = 'none';
+    document.getElementById('iptv-content').style.display = 'block';
+  }
+
+  function showLogin() {
+    document.getElementById('iptv-content').style.display = 'none';
+    document.getElementById('login-page').style.display = 'flex';
+  }
+
+  function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!username || !password) {
+      alert('Please enter both username and password');
+      return;
     }
 
-    function showApp() {
-      document.getElementById('login-page').style.display = 'none';
-      document.getElementById('iptv-content').style.display = 'block';
-    }
+    localStorage.setItem(USERNAME_KEY, username);
+    setUsernameDisplay(username);
+    showApp();
+  }
 
-    function showLogin() {
-      document.getElementById('iptv-content').style.display = 'none';
-      document.getElementById('login-page').style.display = 'flex';
-    }
+  function logout() {
+    localStorage.removeItem(USERNAME_KEY);
+    setUsernameDisplay('');
+    showLogin();
+  }
 
-    function login() {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value;
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem(USERNAME_KEY);
+    if (saved) { setUsernameDisplay(saved); showApp(); } else { showLogin(); }
+  });
 
-      if (!username || !password) {
-        alert('Please enter both username and password');
-        return;
-      }
-
-      localStorage.setItem(USERNAME_KEY, username);
-      setUsernameDisplay(username);
-      showApp();
-    }
-
-    function logout() {
-      localStorage.removeItem(USERNAME_KEY);
-      setUsernameDisplay('');
-      showLogin();
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const saved = localStorage.getItem(USERNAME_KEY);
-      if (saved) { 
-        setUsernameDisplay(saved); 
-        showApp(); 
-      } else { 
-        showLogin(); 
-      }
-
-      // Automatically show the channel list for 'CABLE' when the page loads
-      showChannelList('CABLE');
-    });
-
-    // === MEDIA PLAYER CORE ===
-    let currentPlayer = null;
-
-    function destroyPlayers() {
-      if (currentPlayer) { try { currentPlayer.destroy(); } catch(e){} currentPlayer = null; }
-    }
-
-    function playChannel(channel) {
-      const container = document.getElementById('video-player');
-      destroyPlayers();
-      container.innerHTML = '';
-
-      // Handle YouTube channels
-      if (channel.type === 'youtube') {
-        const iframe = document.createElement('iframe');
-        iframe.src = channel.url;
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-        iframe.allowFullscreen = true;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        container.appendChild(iframe);
-        return;
-      }
-
-      // Handle MP3 (Radio)
-      if (channel.type === 'mp3') {
-        const audio = document.createElement('audio');
-        audio.controls = true;
-        audio.autoplay = true; // Ensure autoplay is set to true
-        audio.src = channel.url;
-        audio.preload = 'auto';
-        const placeholder = document.createElement('div');
-        placeholder.className = 'video-placeholder';
-        if (channel.logo) { placeholder.style.backgroundImage = `url('${channel.logo}')`; }
-        container.appendChild(placeholder);
-        container.appendChild(audio);
-        return;
-      }
-
-      // Handle Movies (HLS/MP4)
-      const video = document.createElement('video');
-      video.controls = true;
-      video.playsInline = true;
-      video.autoplay = true;
-      container.appendChild(video);
-
-      // If the type is HLS, use Hls.js to load the stream
-      if (channel.type === 'hls' || (/\.m3u8($|\?)/i).test(channel.url)) {
-        if (Hls.isSupported()) {
-          const hls = new Hls();
-          hls.loadSource(channel.url);
-          hls.attachMedia(video);
-          return;
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-          video.src = channel.url; // Safari HLS support
-          return;
-        }
-      }
-
-      // If the type is MPD (DASH), use Dash.js to load the stream
-      if (channel.type === 'mpd' || (/\.mpd($|\?)/i).test(channel.url)) {
-        if (dashjs.MediaPlayer) {
-          currentPlayer = new shaka.Player(video);
-          currentPlayer.configure({
-            drm: { clearKeys: { [channel.keyId]: channel.key } }
-          });
-          currentPlayer.load(channel.url).then(() => video.play());
-          return;
-        }
-      }
-
-      // If none of the above, just load MP4 as a fallback
-      if (channel.type === 'mp4' || (/\.mp4($|\?)/i).test(channel.url)) {
-        const source = document.createElement('source');
-        source.src = channel.url;
-        source.type = 'video/mp4';
-        video.appendChild(source);
-        video.load();
-        return;
-      }
-
-      alert('Unsupported stream type.');
-    }
-
-    // === CHANNELS ===
-    const channels = {
+  // === CHANNEL DATA ===
+  const channels = {
       CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },	 	   
@@ -389,7 +314,7 @@
 	 MOVIES: [
          { name: 'May lamok sa loob ng kulambo', url: 'https://jungotvmedia.chanall.tv/jungotv/SolarMayLamokSaKulamboTGFULL10mbps/playlist_720p.m3u8', type: 'movies', logo: '' },
 		 { name: 'Darna at Ding', url: 'https://jungotvmedia.chanall.tv/jungotv/SOLARDarnaAtDingFULL10mbps/playlist_720p.m3u8', type: 'movies', logo: '' },
-		 { name: 'Ziam (tagalog)', url: 'https://urosrv1.streambucket.xyz/hls2/01/00138/fle7t48m3xnv_x/index-v1-a1.m3u8?t=sKhPjSIbHjARBms5JuH5H3bQGBmLE0Roc8jpYiy4iBI&s=1759029460&e=7200&v=66701455&srv=stora1&i=0.3&sp=2000', type: 'movies', logo: '' }
+		 { name: 'LION KING', url: 'https://fonts.gstatic127.workers.dev/NOTFLIX_PH?file=0m3FseIWxPd3you8cROo7T3ZMC3f1oato2EyltnGJyUZR2TqoQjb0OIxG4Erc25r&expiry=qdwg7gmcJ%2FcdMC7tBrgJ7Q%3D%3D&mac=4e0f440bec5178a95d18ba29bf0dbd46a249a7e41a72c36c4192b05e0c88b046', type: 'movies', logo: '' }
 		  ],
       RADIO: [
         { name: '106.3 Yes FM Dagupan', url: 'https://yesfmdagupan.radioca.st/;', type: 'mp3', logo: 'https://i.ibb.co/yBqNhTZN/raryo.jpg' },
@@ -404,21 +329,146 @@
       ]
     };  
 
-    // Function to show channel list with autoplay on channel selection
-    function showChannelList(category) {
-      const channelList = channels[category] || [];
-      const wrap = document.getElementById('channel-list');
-      wrap.innerHTML = '';
-      channelList.forEach(ch => {
-        const el = document.createElement('div');
-        el.className = 'channel-item';
-        el.innerHTML = `<div class="channel-name">${ch.name}</div>`;
-        el.onclick = () => {
-          playChannel(ch); // Autoplay when clicked
-        };
-        wrap.appendChild(el);
-      });
+  // === PLAYERS ===
+  let hlsInstance = null;
+  let dashInstance = null;
+  let shakaPlayerInstance = null;
+
+  function destroyPlayers() {
+    if (hlsInstance) { try { hlsInstance.destroy(); } catch(e){} hlsInstance = null; }
+    if (dashInstance) { try { dashInstance.reset(); } catch(e){} dashInstance = null; }
+    if (shakaPlayerInstance) { try { shakaPlayerInstance.destroy(); } catch(e){} shakaPlayerInstance = null; }
+  }
+
+  function playChannel(channel) {
+    const container = document.getElementById('video-player');
+    destroyPlayers();
+    container.innerHTML = '';
+
+    // Map legacy types
+    const type = (channel.type === 'movies') ? 'hls' : channel.type;
+
+    // YouTube
+    if (type === 'youtube') {
+      const iframe = document.createElement('iframe');
+      iframe.src = channel.url;
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      container.appendChild(iframe);
+      return;
     }
-  </script>
+
+    // MP3 (Audio only with backdrop)
+    if (type === 'mp3') {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'video-placeholder';
+      if (channel.logo) { placeholder.style.backgroundImage = `url('${channel.logo}')`; }
+      container.appendChild(placeholder);
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.src = channel.url;
+      audio.preload = 'none';
+      container.appendChild(audio);
+      audio.play();
+      return;
+    }
+
+    // DASH (MPD) - Use Shaka Player
+    if (type === 'mpd') {
+      const video = document.createElement('video');
+      video.controls = true;
+      container.appendChild(video);
+      shakaPlayerInstance = new shaka.Player(video);
+      shakaPlayerInstance.configure({
+        drm: { clearKeys: { [channel.keyId]: channel.key } }
+      });
+      shakaPlayerInstance.load(channel.url).then(() => {
+        video.play();
+      }).catch(error => {
+        alert('Error loading MPD stream.');
+      });
+      return;
+    }
+
+    // Video (HLS/MP4)
+    const video = document.createElement('video');
+    video.controls = true;
+    video.autoplay = true;
+    video.preload = 'none';
+    container.appendChild(video);
+
+    // MP4
+    if (type === 'mp4' || (/\.mp4($|\?)/i).test(channel.url)) {
+      const source = document.createElement('source');
+      source.src = channel.url;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      video.load();
+      return;
+    }
+
+    // HLS (.m3u8)
+    if (type === 'hls' || (/\.m3u8($|\?)/i).test(channel.url)) {
+      if (window.Hls && Hls.isSupported()) {
+        hlsInstance = new Hls({ maxBufferLength: 30 });
+        hlsInstance.loadSource(channel.url);
+        hlsInstance.attachMedia(video);
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = channel.url; // Safari
+      } else {
+        alert('HLS is not supported in this browser.');
+      }
+      return;
+    }
+
+    alert('Stream type is unsupported or invalid.');
+  }
+
+  function showChannelList(category) {
+    const channelList = channels[category] || [];
+    const wrap = document.getElementById('channel-list');
+    wrap.innerHTML = '';
+    channelList.forEach(ch => {
+      const el = document.createElement('div');
+      el.className = 'channel-item';
+      el.innerHTML = `<div class="channel-name">${ch.name}</div>`;
+      el.onclick = () => playChannel(ch);
+      wrap.appendChild(el);
+    });
+
+    // Autoplay the first channel in the category
+    if (channelList.length > 0) {
+      playChannel(channelList[0]);
+    }
+  }
+
+  function showAddChannelForm() {
+    const name = prompt("Enter Channel Name:");
+    const url = prompt("Enter Channel URL:");
+    if (name && url) {
+      channels.ADDED.push({ name, url, type: 'hls' });
+      showChannelList('ADDED');
+    }
+  }
+
+  // === COMMENT SECTION ===
+  function postComment() {
+    const commentBox = document.getElementById('comment-box');
+    const comment = commentBox.value.trim();
+
+    if (comment) {
+      const list = document.getElementById('comments-list');
+      const item = document.createElement('div');
+      item.className = 'comment-item';
+
+      // Get current time
+      const currentTime = new Date().toLocaleTimeString();
+
+      item.innerHTML = `<span class="comment-username">@user</span> <span class="comment-time">(${currentTime})</span>: ${comment}`;
+      list.appendChild(item);
+      commentBox.value = '';
+    }
+  }
+</script>
 </body>
 </html>
