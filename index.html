@@ -73,7 +73,7 @@
 
     /* Video */
     .video-container {
-      width: 100%;
+      width: 70%;
       height: 600px;
       background: #333;
       margin-bottom: 30px;
@@ -85,14 +85,17 @@
 
     /* Drawer */
     .channel-drawer {
-      width: 100%;
+      width: 28%;
       background: #444;
-      margin-top: 10px;
+      margin-top: 0; /* Align it properly to the top */
       padding: 10px;
       border-radius: 10px;
       overflow-x: auto;
-      max-height: 500px;
+      max-height: 100%; /* Ensure the drawer fills the available space */
+      position: relative;
     }
+
+    /* Channel Item Styling */
     .channel-item {
       display: flex;
       flex-direction: column;
@@ -251,7 +254,6 @@
     function setUsernameDisplay(name) {
       const el = document.getElementById('display-username');
       const elChannel = document.getElementById('display-username-channel');
-      // textContent to avoid any HTML injection
       el.textContent = name ? name : '@user';
       elChannel.textContent = name ? name : '@user'; // Display username in channel header too
     }
@@ -323,7 +325,6 @@
       } else if (channel.type === 'mpd' && window.dashjs) {
         const dashPlayer = dashjs.MediaPlayer().create();
         dashPlayer.initialize(video, channel.url, true);
-        // If you need Widevine keys etc., configure here.
       } else {
         alert('Stream type is unsupported or invalid.');
       }
@@ -362,7 +363,7 @@
 
     // === CHANNELS ===
     const channels = {
-      CABLE: [
+     CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },	 	   
   { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' }, 
@@ -487,7 +488,7 @@
   { name: '102.7 Star FM', url: 'https://stream.zeno.fm/69b1kf7q0y5tv', type: 'mp3', logo: 'https://static.mytuner.mobi/media/tvos_radios/848/star-fm-manila.c6a245b5.png' },
   { name: '106.7 Energy FM', url: 'http://ph-icecast.eradioportal.com:8000/energyfm_manila', type: 'mp3', logo: 'https://static.mytuner.mobi/media/tvos_radios/PG5RgCjKLe.png' } 
       ]
-    };  
+    };   
 
     // optional: default load a category
     document.addEventListener('DOMContentLoaded', () => showChannelList('CABLE'));
