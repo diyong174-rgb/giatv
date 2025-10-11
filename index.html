@@ -117,8 +117,8 @@
 
       /* Make the channel list scrollable vertically */
       #channel-list {
-        max-height: 60vh; /* Set a max height for the list */
-        overflow-y: auto; /* Enable vertical scrolling */
+        max-height: 50vh; /* Set a max height for the list */
+        overflow-y: scroll; /* Enable vertical scrolling */
         margin-top: 10px; /* Add some margin at the top */
       }
 
@@ -141,6 +141,13 @@
       /* Make Channel Item clickable */
       .channel-item:hover {
         background-color: #00aaff; /* Change background on hover */
+      }
+
+      /* Adjust video container height on mobile */
+      .video-container {
+        width: 100%; /* Full width */
+        height: 300px; /* Adjust height for mobile */
+        margin-bottom: 10px; /* Reduce bottom margin */
       }
 
       .content-wrapper { 
