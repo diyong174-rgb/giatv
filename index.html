@@ -166,6 +166,7 @@
   function showApp() {
     document.getElementById('login-page').style.display = 'none';
     document.getElementById('iptv-content').style.display = 'block';
+    showChannelList('CABLE'); // Display channels immediately after login
   }
 
   function showLogin() {
@@ -462,7 +463,7 @@
       // Get current time
       const currentTime = new Date().toLocaleTimeString();
 
-      item.innerHTML = `<span class="comment-username">@user</span> <span class="comment-time">(${currentTime})</span>: ${comment}`;
+      item.innerHTML = `<span class="comment-username">${document.getElementById('display-username').textContent}</span> <span class="comment-time">(${currentTime})</span>: ${comment}`;
       list.appendChild(item);
       commentBox.value = '';
     }
