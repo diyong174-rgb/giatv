@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3RsTV</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Login Page -->
+<div id="login-page" class="login-page">
+  <form class="login-form" onsubmit="event.preventDefault(); login();">
+    <h2>3RSTV</h2>
+    <input type="text" id="username" placeholder="Username" autocomplete="username"/>
+    <input type="password" id="password" placeholder="Password" autocomplete="current-password"/>
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<!-- IPTV Content -->
+<div id="iptv-content" class="iptv-content">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="IPTV Logo">
+    </div>
+
+    <div class="center-section"></div>
+
+    <div class="right-section">
+      <div id="display-username" class="username-pill">@user</div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+      <!-- Eye Icon Counter below the Logout -->
+      <div id="online-viewers" class="online-viewers">
+        <span class="eye-icon">👁️</span>
+        <span id="viewer-count">0</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Welcome Text on the Left -->
+  <div class="channel-header">
+    Welcome, <span id="display-username-channel"></span>!
+  </div>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    <div class="video-container" id="video-player">
+      <!-- player inserted here -->
+    </div>
+
+    <div class="channel-drawer">
+      <div class="categories">
+        <div class="category" onclick="showChannelList('CABLE')">Cable</div>
+        <div class="category" onclick="showChannelList('YOUTUBE')">YouTube</div>
+        <div class="category" onclick="showChannelList('MOVIES')">Movies</div>
+        <div class="category" onclick="showChannelList('RADIO')">Radio</div>
+      </div>
+      <div id="channel-list"></div>
+
+      <!-- Comment Section -->
+      <div class="comment-section">
+        <textarea id="comment-box" class="comment-box" placeholder="Write a comment..."></textarea>
+        <button class="comment-button" onclick="postComment()">Post Comment</button>
+        <div id="comments-list" class="comments-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script> <!-- HLS.js library -->
+<script src="https://unpkg.com/shaka-player@3.2.3/dist/shaka-player.compiled.js"></script> <!-- Shaka Player library -->
+<script src="app.js"></script> <!-- Custom JavaScript -->
+</body>
+</html>
