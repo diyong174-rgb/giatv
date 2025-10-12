@@ -1,0 +1,81 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; background:#111; color:#fff; }
+
+/* Login Page */
+.login-page { display:flex; justify-content:center; align-items:center; height:100vh; background-color:#222; }
+.login-form { display:flex; flex-direction:column; align-items:center; width:100%; max-width:300px; padding:20px; background:#333; border-radius:10px; }
+.login-form input { margin:10px 0; padding:12px; width:100%; border:1px solid #444; border-radius:5px; background:#222; color:#fff; }
+.login-form button { padding:12px; background:#00aaff; border:none; border-radius:5px; width:100%; cursor:pointer; color:#fff; font-size:16px; }
+.login-form button:hover { background:#0099cc; }
+
+/* IPTV Content */
+.iptv-content { display:none; }
+
+/* Header */
+.header { display:flex; justify-content:space-between; align-items:center; padding:5px 10px; background:#222; position:sticky; top:0; z-index:10; }
+.logo img { width:50px; }
+.center-section { display:flex; gap:8px; align-items:center; font-size:12px; }
+.right-section { display:flex; gap:8px; align-items:center; }
+.username-pill { padding:6px 8px; border-radius:999px; background:#333; border:1px solid #444; font-size:12px; }
+.logout-btn { font-size:12px; padding:6px 10px; border-radius:8px; background:#0056b3; color:#fff; border:none; cursor:pointer; }
+.logout-btn:hover { background:#00aaff; }
+
+/* Channel Drawer Header */
+.channel-header { font-size:16px; font-weight:bold; margin:10px 0; color:#00aaff; text-shadow:0 0 10px #00aaff, 0 0 20px #00aaff; }
+
+/* Video */
+.video-container { width:70%; height:600px; background:#333; margin-bottom:30px; display:flex; justify-content:center; align-items:center; position:relative; border-radius:10px; overflow:hidden; }
+.video-container iframe, .video-container video { width:100%; height:100%; border:none; }
+.video-placeholder { position:absolute; inset:0; background-size:cover; background-position:center; opacity:.25; }
+
+/* Drawer */
+.channel-drawer { width:28%; background:#444; margin-top:0; padding:10px; border-radius:10px; overflow-x:auto; max-height:100%; position:relative; }
+
+/* Channel Item Styling */
+.channel-item { display:flex; flex-direction:column; justify-content:center; align-items:center; padding:15px; margin:5px; background:#0056b3; border-radius:10px; transition:.3s ease; color:#fff; }
+.channel-item:hover { background:#00aaff; cursor:pointer; box-shadow:0 0 10px rgba(0,170,255,.8); transform:scale(1.05); color:#000; }
+.channel-item .channel-name { font-size:18px; font-weight:bold; text-shadow:0 0 10px #00aaff, 0 0 20px #00aaff; text-align:center; }
+
+.categories { display:flex; justify-content:flex-start; margin-top:10px; flex-wrap:nowrap; overflow-x:auto; }
+.category { font-size:14px; padding:8px 16px; background:#333; border-radius:5px; cursor:pointer; transition:.3s ease; margin:5px; white-space:nowrap; }
+.category:hover { background:#00aaff; }
+
+button { font-size:18px; padding:12px; border-radius:10px; background:#0056b3; color:#fff; margin:10px; border:none; cursor:pointer; transition:.3s ease; }
+button:hover { background:#00aaff; box-shadow:0 0 10px rgba(0,170,255,.8); }
+
+/* Mobile */
+@media (max-width: 767px) {
+  .header { padding:5px 10px; flex-direction:row; justify-content:space-between; align-items:center; }
+  .logo img { width:50px; }
+  .center-section { font-size:12px; gap:5px; }
+  .right-section { display:flex; gap:8px; align-items:center; }
+  .category { font-size:12px; }
+  .video-container { width:100%; height:300px; }
+  .channel-drawer { margin-bottom:10px; padding:0; width:100%; }
+  .categories { flex-direction:row; align-items:center; justify-content:flex-start; width:100%; overflow-x:scroll; }
+  .category { margin-right:10px; font-size:12px; }
+  .channel-item { width:100%; height:80px; margin-bottom:10px; padding:10px; }
+  #channel-list { max-height:60vh; overflow-y:scroll; }
+  button { padding:15px; font-size:20px; }
+  .content-wrapper { display:block; padding:10px; }
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .content-wrapper { display:flex; justify-content:space-between; gap:12px; padding:10px; }
+  .video-container { width:70%; height:600px; }
+  .channel-drawer { width:28%; height:auto; }
+  .categories { flex-direction:row; }
+  .category { width:auto; margin-left:10px; }
+  #channel-list { max-height:60vh; overflow-y:scroll; }
+}
+
+/* Comment Section */
+.comment-section { margin-top:20px; padding:10px; background:#333; border-radius:10px; }
+.comment-box { width:100%; padding:10px; background:#444; border:1px solid #555; border-radius:5px; color:#fff; }
+.comment-button { background:#00aaff; border:none; padding:10px 15px; color:#fff; font-size:14px; border-radius:5px; cursor:pointer; margin-top:5px; }
+.comment-button:hover { background:#0099cc; }
+.comments-list { margin-top:10px; max-height:150px; overflow-y:auto; background:#222; padding:10px; border-radius:5px; }
+.comment-item { margin-bottom:8px; border-bottom:1px solid #555; padding-bottom:4px; }
+.comment-username { font-weight:bold; color:#00aaff; }
+.comment-time { font-size:12px; color:#777; }
