@@ -8,23 +8,59 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; background: #111; color: #fff; }
 
-    /* Welcome Message */
+    /* Welcome Message Styling */
     .welcome-message {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #222;
+      background: linear-gradient(135deg, #ff5c8f, #6a4af3); /* Gradient background */
       color: #fff;
-      flex-direction: column;
       text-align: center;
-      font-size: 20px;
+      font-size: 24px;
       animation: fadeIn 1s ease-in-out;
     }
 
     @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.6), 0px 0px 20px rgba(255, 255, 255, 0.4);
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      animation: slideUp 1s ease-out;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      animation: slideUp 1.5s ease-out;
+    }
+
+    /* Animation for the text */
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Spinner for extra visual appeal */
+    .spinner {
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* IPTV Content */
@@ -172,8 +208,9 @@
 
 <!-- Welcome Message -->
 <div id="welcome-message" class="welcome-message">
-  <h2>Welcome to 3RsTV!</h2>
-  <p>We're glad to have you here. Please wait while we redirect you...</p>
+  <h1>Welcome to 3RsTV!</h1>
+  <p>We’re excited to have you here. Please wait while we redirect you...</p>
+  <div class="spinner"></div>
 </div>
 
 <!-- IPTV Content -->
@@ -361,7 +398,7 @@
 
   // Sample channel data
   const channels = {
-      CABLE: [
+     CABLE: [
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' },	 	   
   { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: '' }, 
