@@ -13,144 +13,83 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff}
-  header{
-    position:fixed;top:0;left:0;width:100%;z-index:1000;
-    display:flex;justify-content:space-between;align-items:center;
-    padding:12px 16px;background:rgba(0,0,0,.85)
-  }
-  .logo{color:#e50914;font-weight:700;font-size:20px}
-  nav ul{list-style:none;display:flex;gap:14px}
-  nav a{color:#fff;text-decoration:none;font-size:14px}
-  nav a:hover{color:#e50914}
 
-  .hero{
-    height:60vh;display:flex;align-items:center;justify-content:center;
-    padding-top:70px;
-    background:linear-gradient(180deg,#0008,transparent),
-      url('https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat
+  /* Mobile Layout */
+  #iptv-sec {
+    padding: 20px 16px 28px;
   }
-  .hero h1{font-size:38px;text-shadow:0 2px 10px #000}
-
-  .section{padding:85px 16px 28px;max-width:1100px;margin:0 auto}
-  .hidden{display:none !important}
 
   /* IPTV video area */
-  #video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden}
-  #video-player{width:100%;height:100%}
-  .corner-btn{
-    position:absolute;top:12px;padding:8px 12px;border:1px solid #fff6;
-    background:rgba(0,0,0,.45);color:#fff;border-radius:8px;cursor:pointer;font-size:14px
+  #video-wrap {
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom: 20px;
   }
-  #open-drawer-btn{ right:12px; }
-  #save-to-mylist-btn{ left:12px; }
-
-  /* IPTV Drawer (right side) */
-  #iptv-drawer{
-    position:fixed;top:0;right:-320px;width:320px;height:100vh;z-index:1001;
-    background:rgba(0,0,0,.75);backdrop-filter:blur(2px);
-    border-left:1px solid #ffffff22;padding:78px 12px 16px;transition:right .28s ease-in-out
-  }
-  #iptv-drawer.open{right:0}
-  #iptv-list{max-height:calc(100vh - 150px);overflow-y:auto;padding-right:4px}
-  .ch-item{
-    padding:10px;margin-bottom:8px;background:#222;border:1px solid #ffffff1a;
-    border-radius:8px;cursor:pointer;transition:background .2s
-  }
-  .ch-item:hover{background:#2e2e2e}
-  .ch-title{font-size:14px;font-weight:600}
-  #iptv-search{
-    width:100%;padding:8px;border-radius:8px;border:1px solid #ffffff22;
-    background:#1a1a1a;color:#fff;margin-bottom:10px
+  #video-player {
+    width:100%;
+    height:100%;
   }
 
-  /* Radio */
-  #radio-layout{display:grid;grid-template-columns:320px 1fr;gap:14px}
-  #radio-list{
-    max-height:60vh;overflow-y:auto;background:#1a1a1a;border:1px solid #ffffff1a;border-radius:10px;padding:10px
+  /* Channel List */
+  #iptv-list {
+    max-height:calc(60vh - 10px); /* Adjust based on mobile screen size */
+    overflow-y:auto;
   }
-  #audio-player{width:100%;margin-top:8px}
-
-  /* MyList */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
-  .card{
-    background:#1a1a1a;border:1px solid #ffffff1a;border-radius:10px;padding:10px;min-height:110px;
-    display:flex;flex-direction:column;justify-content:space-between
+  .ch-item {
+    padding:10px;
+    margin-bottom:8px;
+    background:#222;
+    border:1px solid #ffffff1a;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background .2s;
   }
-  .card h4{font-size:14px;margin-bottom:8px}
-  .card p{font-size:12px;opacity:.8}
-  .btn{padding:8px 10px;border:1px solid #ffffff2a;border-radius:8px;background:#222;color:#fff;cursor:pointer;font-size:13px}
-  .btn:hover{background:#2c2c2c}
+  .ch-item:hover {
+    background:#2e2e2e;
+  }
+  .ch-title {
+    font-size:14px;
+    font-weight:600;
+  }
 
-  /* Chatroom */
-  #chat-box{height:50vh;overflow-y:auto;background:#1a1a1a;border:1px solid #ffffff1a;border-radius:10px;padding:10px;margin-bottom:10px}
-  .msg{padding:8px 10px;background:#222;border:1px solid #ffffff14;border-radius:8px;margin-bottom:8px;font-size:14px}
-  #chat-input{display:flex;gap:8px}
-  #chat-input input{flex:1;border-radius:8px;border:1px solid #ffffff22;background:#1e1e1e;color:#fff;padding:10px}
-  #chat-input button{min-width:110px}
-
-  /* Mobile responsive styles */
-  @media (max-width: 900px) {
-    .hero h1 {
-      font-size: 28px;
-    }
-    #radio-layout {
-      grid-template-columns: 1fr;
-    }
-    #iptv-drawer {
-      right: -260px;
-      width: 260px;
-    }
-    #iptv-drawer.open {
-      right: 0;
-    }
-    .corner-btn {
-      padding: 6px 10px;
-      font-size: 12px;
-    }
-    #video-wrap {
-      aspect-ratio: 4/3; /* Adjust video aspect ratio for smaller screens */
-    }
-    #iptv-list {
-      padding-right: 8px;
-    }
-    .grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
-    .card {
-      padding: 8px;
-      min-height: 100px;
-    }
-    #chat-box {
-      height: 40vh;
-    }
+  /* Buttons */
+  .corner-btn {
+    position:absolute;
+    top:12px;
+    padding:8px 12px;
+    border:1px solid #fff6;
+    background:rgba(0,0,0,.45);
+    color:#fff;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+  }
+  #open-drawer-btn {
+    right:12px;
+  }
+  #save-to-mylist-btn {
+    left:12px;
   }
 
   @media (max-width: 600px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 8px 12px;
-    }
-    nav ul {
-      flex-direction: column;
-      gap: 10px;
-    }
-    nav a {
-      font-size: 12px;
-    }
-    .hero h1 {
-      font-size: 24px;
-    }
-    #video-wrap {
-      aspect-ratio: 16/9;
-    }
+    /* For mobile devices */
     #iptv-drawer {
-      width: 100%;
-      height: auto;
-      padding: 50px 12px 16px;
+      position:relative;
+      top: 0;
+      right: 0;
+      background:transparent;
+      height:auto;
+      border:none;
+      padding: 0;
     }
-    .corner-btn {
-      font-size: 12px;
+    #iptv-search {
+      width:100%;
+      padding:8px;
+      margin-bottom:10px;
     }
   }
 </style>
@@ -184,425 +123,105 @@
     <div id="video-player"></div>
   </div>
   <p style="opacity:.7;margin-top:10px;font-size:12px;">Tip: “Channels ▸” para ilabas ang drawer (auto-hide after 10s). “☆ Save” para i-add sa MyList.</p>
-</section>
 
-<!-- RADIO ONLY -->
-<section id="radio-sec" class="section hidden">
-  <h2 style="margin-bottom:12px;">Radio</h2>
-  <div id="radio-layout">
-    <div>
-      <div id="radio-list"></div>
-    </div>
-    <div>
-      <div style="background:#1a1a1a;border:1px solid #ffffff1a;border-radius:10px;padding:10px;">
-        <p style="opacity:.85;margin-bottom:8px;">Now Playing</p>
-        <audio id="audio-player" controls></audio>
-        <button id="save-radio-btn" class="btn" style="margin-top:8px;">☆ Save to MyList</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MYLIST -->
-<section id="mylist-sec" class="section hidden">
-  <h2 style="margin-bottom:12px;">MyList</h2>
-  <div class="grid" id="mylist-grid"></div>
-</section>
-
-<!-- CHATROOM -->
-<section id="chat-sec" class="section hidden">
-  <h2 style="margin-bottom:12px;">Chatroom</h2>
-  <div id="chat-box"></div>
-  <div id="chat-input">
-    <input id="chat-text" type="text" placeholder="Type message..." onkeydown="if(event.key==='Enter'){sendMsg();}"/>
-    <button class="btn" onclick="sendMsg()">Send</button>
-  </div>
-</section>
-
-<!-- IPTV Drawer -->
-<aside id="iptv-drawer">
-  <h3 style="margin-bottom:10px;">IPTV Channels</h3>
-  <input id="iptv-search" type="text" placeholder="Search channel...">
+  <!-- Channel List Below Video -->
   <div id="iptv-list"></div>
-</aside>
+</section>
 
 <script>
-/* -------------------- DATA -------------------- */
-const CHANNELS = {
-  IPTV: [
-    { name: 'KAPAMILYA', url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', keyId: 'bd17afb5dc9648a39be79ee3634dd4b8', key: '3ecf305d54a7729299b93a3d69c02ea5', type: 'mpd', logo: '' },
-    { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png' },
-    { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/2Y83j9Dx/3rs-Sine-Pinoy.png' },
-    { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.imgur.com/tSwdUjj.png' },
-    { name: 'CinePlex Asia', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210632/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.imgur.com/tSwdUjj.png' },
-  ],
-  RADIO: [
-    { name: '106.3 Yes FM Dagupan', url: 'https://yesfmdagupan.radioca.st/;', type: 'mp3', logo: 'https://i.ibb.co/yBqNhTZN/raryo.jpg' },
-    { name: '98.3 Love Radio Dagupan', url: 'https://loveradiodagupan.radioca.st/;', type: 'mp3', logo: 'https://i.ibb.co/yBqNhTZN/raryo.jpg' },
-    { name: '90.7 Love Radio', url: 'https://azura.loveradio.com.ph/listen/love_radio_manila/radio.mp3', type: 'mp3', logo: 'https://static.mytuner.mobi/media/tvos_radios/141/dzmb-love-radio-907-fm.fd6dd832.png' },
-  ]
-};
+  // Sample Channels
+  const CHANNELS = {
+    IPTV: [
+      { name: 'KAPAMILYA', url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', type: 'mpd', logo: '' },
+      { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png' },
+      { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/2Y83j9Dx/3rs-Sine-Pinoy.png' },
+      { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.imgur.com/tSwdUjj.png' },
+      { name: 'CinePlex Asia', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210632/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.imgur.com/tSwdUjj.png' },
+      { name: 'JUZT-TV BOX', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210639/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://juzt-tv.vercel.app/your-logo.png' }
+    ]
+  };
 
-/* -------------------- STATE -------------------- */
-let hls = null;
-let shakaPlayer = null;
-let drawerTimer = null;
-let currentIPTV = null;  // {name,url,type,keyId?,key?}
-let currentRadio = null; // {name,url,type}
+  let hls = null;
+  let shakaPlayer = null;
 
-const MYLIST_KEY = 'threeRS_mylist';
-
-/* -------------------- STORAGE HELPERS -------------------- */
-function loadMyList(){
-  try { return JSON.parse(localStorage.getItem(MYLIST_KEY) || '[]'); }
-  catch(e){ return []; }
-}
-function saveMyList(arr){
-  localStorage.setItem(MYLIST_KEY, JSON.stringify(arr));
-}
-function addToMyList(entry){
-  const list = loadMyList();
-  const exists = list.some(x => x.name===entry.name && x.type===entry.type);
-  if(!exists){ list.push(entry); saveMyList(list); alert('Saved to MyList!'); renderMyListGrid(); }
-  else { alert('Nasa MyList na yan.'); }
-}
-
-/* --------- MyList self-heal helpers --------- */
-function findChannelByUrlOrName(item){
-  let hit = CHANNELS.IPTV.find(c => (c.url && item.url && c.url === item.url));
-  if (hit) return hit;
-  const n1 = (item.name||'').trim().toLowerCase();
-  hit = CHANNELS.IPTV.find(c => (c.name||'').trim().toLowerCase() === n1);
-  return hit || null;
-}
-function ensureKeysForMPD(item){
-  if (!item || (item.type||'').toLowerCase() !== 'mpd') return item;
-  const hasKeys = !!(item.keyId && item.key);
-  if (hasKeys) return item;
-  const src = findChannelByUrlOrName(item);
-  if (src && src.keyId && src.key) {
-    item.keyId = src.keyId;
-    item.key   = src.key;
-  }
-  return item;
-}
-function playEntryFromMyList(entry){
-  const healed = ensureKeysForMPD({...entry});
-  if ((healed.type||'').toLowerCase() === 'mp3') {
-    showRadio(); playRadio(healed); return;
-  }
-  showIPTV();
-  if ((healed.type||'').toLowerCase()==='mpd' && !(healed.keyId && healed.key)) {
-    alert('Note: This MPD entry has no ClearKey saved. Susubukan pa rin i-play. Kung encrypted ito, mag-eerror. I-save mo ulit mula sa Live TV para kumpletong keys.');
-  }
-  playIPTV(healed);
-}
-
-/* -------------------- RENDER LISTS -------------------- */
-function renderIPTVList(filter=''){
-  const list = document.getElementById('iptv-list');
-  const q = (filter||'').toLowerCase();
-  list.innerHTML=''; 
-  CHANNELS.IPTV
-    .filter(ch => ch.name.toLowerCase().includes(q))
-    .forEach(ch=>{
-      const item=document.createElement('div');
-      item.className='ch-item';
-      item.innerHTML=`<div class="ch-title">${ch.name}</div>`;
-      item.onclick=()=>{ playIPTV(ch); restartDrawerAutoHide(); };
+  // Render IPTV Channel List
+  function renderIPTVList() {
+    const list = document.getElementById('iptv-list');
+    list.innerHTML = ''; // Clear existing list
+    CHANNELS.IPTV.forEach((ch) => {
+      const item = document.createElement('div');
+      item.className = 'ch-item';
+      item.innerHTML = `
+        <div class="ch-title">${ch.name}</div>
+      `;
+      item.onclick = () => playIPTV(ch);
       list.appendChild(item);
     });
-}
-function renderRadioList(){
-  const list=document.getElementById('radio-list');
-  list.innerHTML='';
-  CHANNELS.RADIO.forEach(ch=>{
-    const item=document.createElement('div');
-    item.className='ch-item';
-    item.innerHTML=`<div class="ch-title">${ch.name}</div>`;
-    item.onclick=()=>playRadio(ch);
-    list.appendChild(item);
-  });
-}
-
-function renderMyListGrid(){
-  const grid = document.getElementById('mylist-grid');
-  if(!grid) return;
-  const list = loadMyList();
-  grid.innerHTML = '';
-  if(list.length===0){
-    grid.innerHTML = `<div class="card"><p>Wala pang laman. Gamitin ang “☆ Save” sa IPTV o Radio para magdagdag.</p></div>`;
-    return;
   }
-  list.forEach((item, idx)=>{
-    const el = document.createElement('div');
-    el.className = 'card';
-    el.innerHTML = `
-      <div>
-        <h4>${item.name}</h4>
-        <p style="margin:6px 0 10px;opacity:.8;">Type: ${item.type.toUpperCase()}</p>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn" data-i="${idx}" data-action="play">Play</button>
-        <button class="btn" data-i="${idx}" data-action="remove">Remove</button>
-      </div>
-    `;
-    el.querySelectorAll('button').forEach(btn=>{
-      btn.onclick = ()=>{ 
-        const i = +btn.dataset.i; const action = btn.dataset.action;
-        const arr = loadMyList();
-        const target = arr[i];
-        if(!target) return;
-        if(action==='play'){
-          playEntryFromMyList(target);
-        }else if(action==='remove'){
-          arr.splice(i,1); saveMyList(arr); renderMyListGrid();
-        }
-      };
-    });
-    grid.appendChild(el);
-  });
-}
 
-/* -------------------- PLAYERS -------------------- */
-function sanitizeHex(s){ return (s||'').replace(/^0x/i,'').replace(/\s+/g,'').toLowerCase(); }
-function isHex32(s){ return /^[0-9a-f]{32}$/i.test(s||''); }
+  // Play IPTV Channel
+  function playIPTV(channel) {
+    const videoWrap = document.getElementById('video-player');
+    const video = document.createElement('video');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('controls', '');
+    video.style.width = '100%';
+    video.style.height = '100%';
+    videoWrap.innerHTML = ''; // Clear previous video
+    videoWrap.appendChild(video);
 
-async function playIPTV(channel){
-  destroyPlayers(); // stop video
-  stopRadio();      // ensure radio off
-
-  const wrap=document.getElementById('video-player');
-  const video=document.createElement('video');
-  video.setAttribute('playsinline','');
-  video.setAttribute('controls','');
-  video.style.width='100%';
-  video.style.height='100%';
-  wrap.appendChild(video);
-
-  try{
-    if(channel.type==='hls' || /\.m3u8(\?|$)/i.test(channel.url)){
-      if(Hls.isSupported()){
-        hls=new Hls({maxBufferLength:30});
-        hls.on(Hls.Events.ERROR,(_,data)=>console.warn('[HLS]',data));
+    if (channel.type === 'hls') {
+      if (Hls.isSupported()) {
+        hls = new Hls();
         hls.loadSource(channel.url);
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
-      }else if(video.canPlayType('application/vnd.apple.mpegurl')){
-        video.src=channel.url;
-        await video.play().catch(()=>{});
-      }else{
-        alert('HLS not supported.');
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play().catch(() => {});
+        });
+      } else {
+        video.src = channel.url;
+        video.play().catch(() => {});
       }
-      currentIPTV = { name: channel.name, url: channel.url, type: channel.type };
-      return;
-    }
-
-    if(channel.type==='mpd' || /\.mpd(\?|$)/i.test(channel.url)){
+    } else if (channel.type === 'mpd') {
       shaka.polyfill.installAll();
-      if(!shaka.Player.isBrowserSupported()){
+      if (!shaka.Player.isBrowserSupported()) {
         alert('Shaka: browser not supported.');
         return;
       }
-      shakaPlayer=new shaka.Player(video);
-      shakaPlayer.addEventListener('error',e=>{
-        const err = e.detail || e || {};
-        console.error('[Shaka] error:', err);
-        if (err.code === 6007 || /LICENSE|KEY|DRM/i.test(err.message||'')) {
-          alert('DRM/ClearKey error: mukhang encrypted ang stream at kulang o maling susi. Subukan i-play muna sa Live TV, tapos i-☆ Save ulit para kumpletong keys.');
-        }
+      shakaPlayer = new shaka.Player(video);
+      shakaPlayer.load(channel.url).then(() => {
+        video.play().catch(() => {});
       });
-
-      if(channel.keyId && channel.key){
-        const kid=sanitizeHex(channel.keyId);
-        const key=sanitizeHex(channel.key);
-        if(isHex32(kid) && isHex32(key)){
-          shakaPlayer.configure({ drm:{ clearKeys:{ [kid]: key } } });
-          console.log('[Shaka] Using ClearKey (hex)',{kid,key});
-        }else{
-          shakaPlayer.configure({ drm:{ clearKeys:{ [channel.keyId]: channel.key } } });
-          console.warn('[Shaka] Keys not hex-32, passing raw (maybe base64).');
-        }
-      }
-
-      await shakaPlayer.load(channel.url);
-      await video.play().catch(()=>{});
-      currentIPTV = {
-        name: channel.name, url: channel.url, type: channel.type,
-        ...(channel.keyId ? { keyId: channel.keyId } : {}),
-        ...(channel.key ? { key: channel.key } : {})
-      };
-      return;
+    } else {
+      alert('Unsupported stream type');
     }
-
-    if(channel.type==='mp4' || /\.mp4(\?|$)/i.test(channel.url)){
-      video.src=channel.url;
-      await video.play().catch(()=>{});
-      currentIPTV = { name: channel.name, url: channel.url, type: channel.type };
-      return;
-    }
-
-    alert('Stream type not supported.');
-  }catch(err){
-    console.error('[Player] fatal:',err);
-    alert('Playback error. See console for details.');
   }
-}
 
-function playRadio(channel){
-  destroyPlayers(); // ensure no video
-  const audio=document.getElementById('audio-player');
-  audio.src=channel.url;
-  audio.play().catch(()=>{});
-  currentRadio = { name: channel.name, url: channel.url, type: channel.type };
-}
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    showHome();
+    renderIPTVList();
+  });
 
-/* -------------------- MYLIST -------------------- */
-function renderMyListGrid(){
-  const grid = document.getElementById('mylist-grid');
-  if(!grid) return;
-  const list = loadMyList();
-  grid.innerHTML = '';
-  if(list.length===0){
-    grid.innerHTML = `<div class="card"><p>Wala pang laman. Gamitin ang “☆ Save” sa IPTV o Radio para magdagdag.</p></div>`;
-    return;
+  // Show Home
+  function showHome() {
+    hideAll();
+    document.getElementById('home-sec').classList.remove('hidden');
   }
-  list.forEach((item, idx)=>{
-    const el = document.createElement('div');
-    el.className = 'card';
-    el.innerHTML = `
-      <div>
-        <h4>${item.name}</h4>
-        <p style="margin:6px 0 10px;opacity:.8;">Type: ${item.type.toUpperCase()}</p>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn" data-i="${idx}" data-action="play">Play</button>
-        <button class="btn" data-i="${idx}" data-action="remove">Remove</button>
-      </div>
-    `;
-    el.querySelectorAll('button').forEach(btn=>{
-      btn.onclick = ()=>{ 
-        const i = +btn.dataset.i; const action = btn.dataset.action;
-        const arr = loadMyList();
-        const target = arr[i];
-        if(!target) return;
-        if(action==='play'){
-          playEntryFromMyList(target);
-        }else if(action==='remove'){
-          arr.splice(i,1); saveMyList(arr); renderMyListGrid();
-        }
-      };
-    });
-    grid.appendChild(el);
-  });
-}
 
-/* -------------------- SHOW/HIDE -------------------- */
-function hideAll(){
-  document.getElementById('home-sec').classList.add('hidden');
-  document.getElementById('iptv-sec').classList.add('hidden');
-  document.getElementById('radio-sec').classList.add('hidden');
-  document.getElementById('mylist-sec').classList.add('hidden');
-  document.getElementById('chat-sec').classList.add('hidden');
+  // Hide All Sections
+  function hideAll() {
+    document.getElementById('home-sec').classList.add('hidden');
+    document.getElementById('iptv-sec').classList.add('hidden');
+  }
 
-  closeIPTVDdrawer();
-  destroyPlayers();
-  stopRadio();
-}
-function showHome(){
-  hideAll();
-  document.getElementById('home-sec').classList.remove('hidden');
-}
-function showIPTV(){
-  hideAll();
-  document.getElementById('iptv-sec').classList.remove('hidden');
-  renderIPTVList();
-  openIPTVDdrawer();
-  if(CHANNELS.IPTV.length) playIPTV(CHANNELS.IPTV[0]); // auto-play first
-}
-function showRadio(){
-  hideAll();
-  document.getElementById('radio-sec').classList.remove('hidden');
-  renderRadioList();
-  if(CHANNELS.RADIO.length) playRadio(CHANNELS.RADIO[0]); // auto-play first
-}
-function showMyList(){
-  hideAll();
-  document.getElementById('mylist-sec').classList.remove('hidden');
-  renderMyListGrid();
-}
-function showChat(){
-  hideAll();
-  document.getElementById('chat-sec').classList.remove('hidden');
-}
-
-/* -------------------- DRAWER -------------------- */
-function openIPTVDdrawer(){
-  const d=document.getElementById('iptv-drawer');
-  d.classList.add('open');
-  restartDrawerAutoHide();
-}
-function closeIPTVDdrawer(){
-  const d=document.getElementById('iptv-drawer');
-  d.classList.remove('open');
-  if(drawerTimer){ clearTimeout(drawerTimer); drawerTimer=null; }
-}
-function restartDrawerAutoHide(){
-  const d=document.getElementById('iptv-drawer');
-  if(!d.classList.contains('open')) d.classList.add('open');
-  if(drawerTimer) clearTimeout(drawerTimer);
-  drawerTimer=setTimeout(()=>{ d.classList.remove('open'); },10000); // 10s
-}
-
-/* -------------------- CHAT DEMO -------------------- */
-function sendMsg(){
-  const box=document.getElementById('chat-box');
-  const input=document.getElementById('chat-text');
-  const txt=(input.value||'').trim();
-  if(!txt) return;
-  const div=document.createElement('div');
-  div.className='msg';
-  div.textContent=txt;
-  box.appendChild(div);
-  box.scrollTop=box.scrollHeight;
-  input.value='';
-}
-
-/* -------------------- INIT & WIRING -------------------- */
-document.addEventListener('DOMContentLoaded',()=>{ 
-  showHome();
-  renderIPTVList(); // pre-render
-  renderMyListGrid();
-
-  document.getElementById('open-drawer-btn').addEventListener('click', openIPTVDdrawer);
-  document.getElementById('iptv-search').addEventListener('input', (e)=> renderIPTVList(e.target.value));
-
-  document.getElementById('save-to-mylist-btn').addEventListener('click', ()=>{ 
-    if(!currentIPTV){ alert('Walang active IPTV channel.'); return; } 
-    addToMyList(currentIPTV);
-  });
-  document.getElementById('save-radio-btn').addEventListener('click', ()=>{ 
-    if(!currentRadio){ alert('Walang active radio stream.'); return; } 
-    addToMyList(currentRadio);
-  });
-
-  // ---- Auto-upgrade existing MyList entries with missing ClearKeys ----
-  (function upgradeMyList(){
-    const arr = loadMyList();
-    let changed = false;
-    const upgraded = arr.map(it => {
-      const before = JSON.stringify(it);
-      const after  = ensureKeysForMPD({...it});
-      if (JSON.stringify(after) !== before) changed = true;
-      return after;
-    });
-    if (changed) {
-      saveMyList(upgraded);
-      console.log('[MyList] Upgraded entries with missing ClearKeys.');
-      renderMyListGrid();
-    }
-  })();
-});
+  // Show IPTV
+  function showIPTV() {
+    hideAll();
+    document.getElementById('iptv-sec').classList.remove('hidden');
+    renderIPTVList();
+  }
 </script>
+
 </body>
 </html>
