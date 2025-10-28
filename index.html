@@ -11,103 +11,83 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.3/shaka-player.compiled.min.js"></script>
 
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff}
-    header{
-      position:fixed;top:0;left:0;width:100%;z-index:1000;
-      display:flex;justify-content:space-between;align-items:center;
-      padding:12px 16px;background:rgba(0,0,0,.85)
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, Helvetica, sans-serif; background: #111; color: #fff; }
+    header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 16px; background: rgba(0, 0, 0, .85);
     }
-    .logo{color:#e50914;font-weight:700;font-size:20px}
-    nav ul{list-style:none;display:flex;gap:14px}
-    nav a{color:#fff;text-decoration:none;font-size:14px}
-    nav a:hover{color:#e50914}
+    .logo { color: #e50914; font-weight: 700; font-size: 20px; }
+    nav ul { list-style: none; display: flex; gap: 14px; }
+    nav a { color: #fff; text-decoration: none; font-size: 14px; }
+    nav a:hover { color: #e50914; }
 
-    .hero{
-      height:60vh;display:flex;align-items:center;justify-content:center;
-      padding-top:70px;
-      background:linear-gradient(180deg,#0008,transparent),
-        url('https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat
+    .hero {
+      height: 60vh; display: flex; align-items: center; justify-content: center;
+      padding-top: 70px;
+      background: linear-gradient(180deg, #0008, transparent),
+        url('https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
     }
-    .hero h1{font-size:38px;text-shadow:0 2px 10px #000}
+    .hero h1 { font-size: 38px; text-shadow: 0 2px 10px #000; }
 
-    .section{padding:85px 16px 28px;max-width:1100px;margin:0 auto}
-    .hidden{display:none !important}
+    .section { padding: 85px 16px 28px; max-width: 1100px; margin: 0 auto; }
+    .hidden { display: none !important; }
 
     /* IPTV video area */
-    #video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden}
-    #video-player{width:100%;height:100%}
-    .corner-btn{
-      position:absolute;top:12px;padding:8px 12px;border:1px solid #fff6;
-      background:rgba(0,0,0,.45);color:#fff;border-radius:8px;cursor:pointer;font-size:14px
+    #video-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; overflow: hidden; }
+    #video-player { width: 100%; height: 100%; }
+    .corner-btn {
+      position: absolute; top: 12px; padding: 8px 12px; border: 1px solid #fff6;
+      background: rgba(0, 0, 0, .45); color: #fff; border-radius: 8px; cursor: pointer; font-size: 14px;
     }
-    #save-to-mylist-btn{ left:12px; z-index:999;} /* Adjusted */
-    #open-drawer-btn{ right:12px; z-index:1000;} /* Adjusted */
+    #save-to-mylist-btn { left: 12px; z-index: 999; } /* Adjusted */
+    #open-drawer-btn { right: 12px; z-index: 1000; } /* Adjusted */
 
     /* IPTV Drawer (right side) */
-    #iptv-drawer{
-      position:fixed;top:0;right:-320px;width:320px;height:100vh;z-index:1001;
-      background:rgba(0,0,0,.75);backdrop-filter:blur(2px);
-      border-left:1px solid #ffffff22;padding:78px 12px 16px;transition:right .28s ease-in-out
+    #iptv-drawer {
+      position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; z-index: 1001;
+      background: rgba(0, 0, 0, .75); backdrop-filter: blur(2px);
+      border-left: 1px solid #ffffff22; padding: 78px 12px 16px; transition: right .28s ease-in-out;
     }
-    #iptv-drawer.open{right:0}
-    #iptv-list{max-height:calc(100vh - 150px);overflow-y:auto;padding-right:4px}
-    .ch-item{
-      padding:10px;margin-bottom:8px;background:#222;border:1px solid #ffffff1a;
-      border-radius:8px;cursor:pointer;transition:background .2s
+    #iptv-drawer.open { right: 0; }
+    #iptv-list { max-height: calc(100vh - 150px); overflow-y: auto; padding-right: 4px; }
+    .ch-item {
+      padding: 10px; margin-bottom: 8px; background: #222; border: 1px solid #ffffff1a;
+      border-radius: 8px; cursor: pointer; transition: background .2s;
     }
-    .ch-item:hover{background:#2e2e2e}
-    .ch-title{font-size:14px;font-weight:600}
-    #iptv-search{
-      width:100%;padding:8px;border-radius:8px;border:1px solid #ffffff22;
-      background:#1a1a1a;color:#fff;margin-bottom:10px
+    .ch-item:hover { background: #2e2e2e; }
+    .ch-title { font-size: 14px; font-weight: 600; }
+    #iptv-search {
+      width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ffffff22;
+      background: #1a1a1a; color: #fff; margin-bottom: 10px;
     }
 
-    /* Mobile layout - IPTV Drawer at the bottom */
-    @media (max-width:900px){
+    /* Mobile layout */
+    @media (max-width: 900px) {
       #iptv-drawer {
-        position: relative;
-        top: auto;
-        right: auto;
-        width: 100%;
-        height: auto;
-        padding: 16px;
-        border-top: 1px solid #ffffff22;
-        backdrop-filter: none; /* Remove blur effect */
+        position: relative; top: auto; right: auto; width: 100%; height: auto; padding: 16px;
+        border-top: 1px solid #ffffff22; backdrop-filter: none;
       }
-
       #iptv-drawer.open {
-        bottom: 0; /* Position the drawer at the bottom on mobile */
+        bottom: 0;
       }
-
       #video-wrap {
-        margin-bottom: 70px; /* Add space for the drawer */
+        margin-bottom: 70px;
       }
-
-      /* Remove the "Channels" button on mobile */
       #open-drawer-btn {
         display: none;
       }
     }
 
-    /* Desktop layout - keep as is */
-    @media (min-width:901px){
+    /* Desktop layout */
+    @media (min-width: 901px) {
       #iptv-drawer {
-        position: fixed;
-        top: 0;
-        right: -320px;
-        width: 320px;
-        height: 100vh;
-        z-index: 1001;
-        background: rgba(0, 0, 0, .75);
-        backdrop-filter: blur(2px);
-        border-left: 1px solid #ffffff22;
-        padding: 78px 12px 16px;
+        position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; z-index: 1001;
+        background: rgba(0, 0, 0, .75); backdrop-filter: blur(2px); padding: 78px 12px 16px;
         transition: right .28s ease-in-out;
       }
-      #iptv-drawer.open {
-        right: 0;
-      }
+      #iptv-drawer.open { right: 0; }
     }
   </style>
 </head>
@@ -117,11 +97,11 @@
   <div class="logo">PeanutFlix</div>
   <nav>
     <ul>
-      <li><a href="#" onclick="showHome();return false;">Home</a></li>
-      <li><a href="#" onclick="showIPTV();return false;">Live TV</a></li>
-      <li><a href="#" onclick="showRadio();return false;">Radio</a></li>
-      <li><a href="#" onclick="showMyList();return false;">MyList</a></li>
-      <li><a href="#" onclick="showChat();return false;">Chatroom</a></li>
+      <li><a href="#" onclick="showHome(); return false;">Home</a></li>
+      <li><a href="#" onclick="showIPTV(); return false;">Live TV</a></li>
+      <li><a href="#" onclick="showRadio(); return false;">Radio</a></li>
+      <li><a href="#" onclick="showMyList(); return false;">MyList</a></li>
+      <li><a href="#" onclick="showChat(); return false;">Chatroom</a></li>
     </ul>
   </nav>
 </header>
@@ -131,7 +111,7 @@
   <h1>Welcome to PeanutFlix</h1>
 </section>
 
-<!-- IPTV ONLY -->
+<!-- IPTV Section -->
 <section id="iptv-sec" class="section hidden">
   <h2 style="margin-bottom:12px;">Live TV</h2>
   <div id="video-wrap">
@@ -146,6 +126,7 @@
 <section id="radio-sec" class="section hidden">
   <h2 style="margin-bottom:12px;">Radio</h2>
   <div id="radio-list"></div>
+  <audio id="audio-player" controls style="width: 100%;"></audio> <!-- Added audio player element -->
 </section>
 
 <!-- MyList Section -->
@@ -172,9 +153,9 @@
 </aside>
 
 <script>
-// Simple Channel Data
+// Sample Channel Data for IPTV and Radio
 const CHANNELS = {
-  IPTV: [
+IPTV: [
   { name: 'KAPAMILYA', url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', keyId: 'bd17afb5dc9648a39be79ee3634dd4b8', key: '3ecf305d54a7729299b93a3d69c02ea5', type: 'mpd', logo: '' },   
   { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png' },
   { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/2Y83j9Dx/3rs-Sine-Pinoy.png' },
@@ -294,13 +275,30 @@ const CHANNELS = {
 
 let hls = null;
 let shakaPlayer = null;
+let audioPlayer = document.getElementById('audio-player');  // for radio
+let currentIPTV = null;
+let currentRadio = null;
 let drawerTimer = null;
 
-// Function to play IPTV channels
-async function playIPTV(channel) {
-  destroyPlayers(); // stop video
-  stopRadio();      // ensure radio off
+// Stop previous players (IPTV/Radio) before starting new ones
+function destroyPlayers() {
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+  if (shakaPlayer) {
+    shakaPlayer.destroy();
+    shakaPlayer = null;
+  }
+  if (audioPlayer) {
+    audioPlayer.pause();
+    audioPlayer.src = '';
+  }
+}
 
+// Play IPTV channel
+async function playIPTV(channel) {
+  destroyPlayers();  // Stop any active radio stream
   const wrap = document.getElementById('video-player');
   const video = document.createElement('video');
   video.setAttribute('playsinline', '');
@@ -323,16 +321,15 @@ async function playIPTV(channel) {
       } else {
         alert('HLS not supported.');
       }
-      return;
-    }
-
-    if (channel.type === 'mpd' || /\.mpd(\?|$)/i.test(channel.url)) {
+    } else if (channel.type === 'mpd' || /\.mpd(\?|$)/i.test(channel.url)) {
       shaka.polyfill.installAll();
       if (!shaka.Player.isBrowserSupported()) {
         alert('Shaka: browser not supported.');
         return;
       }
-      shakaPlayer = new shaka.Player(video);
+      shakaPlayer = new shaka.Player();  // Initialize player without passing the video element
+      shakaPlayer.attach(video);  // Now attach the video element to the player
+
       shakaPlayer.addEventListener('error', e => {
         const err = e.detail || e || {};
         console.error('[Shaka] error:', err);
@@ -340,17 +337,48 @@ async function playIPTV(channel) {
 
       await shakaPlayer.load(channel.url);
       await video.play().catch(() => {});
-      return;
+    } else {
+      alert('Stream type not supported.');
     }
-
-    alert('Stream type not supported.');
+    currentIPTV = { name: channel.name, url: channel.url, type: channel.type };
   } catch (err) {
     console.error('[Player] fatal:', err);
     alert('Playback error. See console for details.');
   }
 }
 
-// Function to render IPTV channels in the drawer
+// Play Radio
+function playRadio(channel) {
+  destroyPlayers();  // Stop any active IPTV stream
+  if (audioPlayer) {
+    audioPlayer.src = channel.url;
+    audioPlayer.play().catch(() => {});
+    currentRadio = { name: channel.name, url: channel.url, type: channel.type };
+  }
+}
+
+// Show Radio section
+function showRadio() {
+  hideAll();
+  const radio = document.getElementById('radio-sec');
+  if (radio) radio.classList.remove('hidden');
+  renderRadioList(); // Render the radio list
+}
+
+// Render Radio List
+function renderRadioList() {
+  const list = document.getElementById('radio-list');
+  list.innerHTML = '';
+  CHANNELS.RADIO.forEach(ch => {
+    const item = document.createElement('div');
+    item.className = 'ch-item';
+    item.innerHTML = `<div class="ch-title">${ch.name}</div>`;
+    item.onclick = () => playRadio(ch);
+    list.appendChild(item);
+  });
+}
+
+// Render IPTV List
 function renderIPTVList(filter = '') {
   const list = document.getElementById('iptv-list');
   const q = (filter || '').toLowerCase();
@@ -374,123 +402,11 @@ function restartDrawerAutoHide() {
   drawerTimer = setTimeout(() => { d.classList.remove('open'); }, 10000); // 10s
 }
 
-// Function to show Radio Section
-function showRadio() {
-  hideAll();
-  document.getElementById('radio-sec').classList.remove('hidden');
-  renderRadioList();
-}
-
-// Render Radio List
-function renderRadioList() {
-  const list = document.getElementById('radio-list');
-  list.innerHTML = '';
-  CHANNELS.RADIO.forEach(ch => {
-    const item = document.createElement('div');
-    item.className = 'ch-item';
-    item.innerHTML = `<div class="ch-title">${ch.name}</div>`;
-    item.onclick = () => playRadio(ch);
-    list.appendChild(item);
-  });
-}
-
-// Function to play radio
-function playRadio(channel) {
-  destroyPlayers(); // stop video
-  const audio = document.getElementById('audio-player');
-  audio.src = channel.url;
-  audio.play().catch(() => {});
-}
-
-// Function to show MyList Section
-function showMyList() {
-  hideAll();
-  document.getElementById('mylist-sec').classList.remove('hidden');
-  renderMyListGrid();
-}
-
-// Render MyList
-function renderMyListGrid() {
-  const grid = document.getElementById('mylist-grid');
-  grid.innerHTML = '';
-  const list = loadMyList();
-  if (list.length === 0) {
-    grid.innerHTML = `<div class="card"><p>Wala pang laman. Gamitin ang “☆ Save” sa IPTV o Radio para magdagdag.</p></div>`;
-  }
-  list.forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'card';
-    el.innerHTML = `
-      <div>
-        <h4>${item.name}</h4>
-        <p style="margin:6px 0 10px;opacity:.8;">Type: ${item.type.toUpperCase()}</p>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn" onclick="playEntryFromMyList(item)">Play</button>
-        <button class="btn" onclick="removeFromMyList(item)">Remove</button>
-      </div>
-    `;
-    grid.appendChild(el);
-  });
-}
-
-// Function to remove item from MyList
-function removeFromMyList(item) {
-  const list = loadMyList();
-  const index = list.indexOf(item);
-  if (index !== -1) {
-    list.splice(index, 1);
-    saveMyList(list);
-    renderMyListGrid();
-  }
-}
-
-// Function to play item from MyList
-function playEntryFromMyList(item) {
-  playIPTV(item); // Use the same function to play IPTV
-}
-
-// Helper functions to save/load MyList
-const MYLIST_KEY = 'threeRS_mylist';
-function loadMyList() {
-  try { return JSON.parse(localStorage.getItem(MYLIST_KEY) || '[]'); }
-  catch (e) { return []; }
-}
-function saveMyList(arr) {
-  localStorage.setItem(MYLIST_KEY, JSON.stringify(arr));
-}
-
-// Function to show Chatroom Section
-function showChat() {
-  hideAll();
-  document.getElementById('chat-sec').classList.remove('hidden');
-}
-
-// Hide all sections
-function hideAll() {
-  document.getElementById('home-sec').classList.add('hidden');
-  document.getElementById('iptv-sec').classList.add('hidden');
-  document.getElementById('radio-sec').classList.add('hidden');
-  document.getElementById('mylist-sec').classList.add('hidden');
-  document.getElementById('chat-sec').classList.add('hidden');
-}
-
-// Initialize and render the list
-document.addEventListener('DOMContentLoaded', () => {
-  showHome();
-  renderIPTVList(); // pre-render IPTV list
-});
-
-// Show Home section
-function showHome() {
-  hideAll();
-  document.getElementById('home-sec').classList.remove('hidden');
-}
-
 // Show IPTV section
 function showIPTV() {
   hideAll();
-  document.getElementById('iptv-sec').classList.remove('hidden');
+  const iptv = document.getElementById('iptv-sec');
+  if (iptv) iptv.classList.remove('hidden');
   renderIPTVList(); // Render the IPTV list
   openIPTVDdrawer();
 }
@@ -501,6 +417,28 @@ function openIPTVDdrawer() {
   d.classList.add('open');
   restartDrawerAutoHide();
 }
+
+// Show Home section
+function showHome() {
+  hideAll();
+  const home = document.getElementById('home-sec');
+  if (home) home.classList.remove('hidden');
+}
+
+// Hide all sections
+function hideAll() {
+  const sections = ['home-sec', 'iptv-sec', 'radio-sec', 'mylist-sec', 'chat-sec'];
+  sections.forEach(section => {
+    const el = document.getElementById(section);
+    if (el) el.classList.add('hidden');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  showHome();
+  renderIPTVList(); // Pre-render IPTV list
+});
+
 </script>
 
 </body>
