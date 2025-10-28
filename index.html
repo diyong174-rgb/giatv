@@ -49,13 +49,14 @@
     #save-to-mylist-btn{ left:12px; z-index:999;} /* Adjusted */
     #open-drawer-btn{ right:12px; z-index:1000;} /* Adjusted */
 
-    /* IPTV Drawer (right side for desktop) */
+    /* IPTV Drawer (centered for mobile) */
     #iptv-drawer{
-      position:fixed;top:0;right:-320px;width:320px;height:100vh;z-index:1001;
+      position:fixed;top:auto;bottom:0;width:100%;max-width:320px;height:40vh;z-index:1001;
       background:rgba(0,0,0,.75);backdrop-filter:blur(2px);
-      border-left:1px solid #ffffff22;padding:78px 12px 16px;transition:right .28s ease-in-out
+      border-left:1px solid #ffffff22;padding:12px 16px 16px;transition:right .28s ease-in-out;
+      left:50%;transform:translateX(-50%);
     }
-    #iptv-drawer.open{right:0}
+    #iptv-drawer.open{bottom:0}
     #iptv-list{max-height:calc(100vh - 150px);overflow-y:auto;padding-right:4px}
     .ch-item{
       padding:10px;margin-bottom:8px;background:#222;border:1px solid #ffffff1a;
@@ -68,28 +69,21 @@
       background:#1a1a1a;color:#fff;margin-bottom:10px
     }
 
-    /* Mobile layout adjustments */
+    /* Mobile layout - Hide IPTV section and drawer for non-Live TV sections */
     @media (max-width:900px){
       #iptv-sec {
         display: none; /* Hide IPTV section on mobile */
       }
 
+      /* Make sure the drawer is aligned left for mobile */
       #iptv-drawer {
-        bottom: 0; /* Position the drawer at the bottom of the screen on mobile */
-        right: 0;  /* Ensure it's visible */
-        top: auto; /* Remove top positioning */
-        height: 40%; /* Adjust height for better mobile view */
+        height: 40vh; /* Adjust height for mobile */
+        left: 50%;
+        transform: translateX(-50%);
       }
 
       #video-wrap {
-        margin-bottom: 50px; /* Add space for the drawer button (which is visible on mobile) */
-      }
-
-      /* Make sure the drawer is aligned left for mobile */
-      #iptv-drawer {
-        left: 0;
-        right: auto;
-        height: 50%; /* Adjust height for mobile */
+        margin-bottom: 50px; /* Add space for the drawer button */
       }
 
       /* Hide the "Channels" button on mobile */
