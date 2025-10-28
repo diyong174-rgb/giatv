@@ -1,98 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PeanutFlix</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PeanutFlix</title>
 
-<!-- HLS.js (for .m3u8) -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<!-- Shaka Player (for .mpd / DASH) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.3/shaka-player.compiled.min.js"></script>
+  <!-- HLS.js (for .m3u8) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Shaka Player (for .mpd / DASH) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.3/shaka-player.compiled.min.js"></script>
 
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff}
-
-  /* Mobile Layout */
-  #iptv-sec {
-    padding: 20px 16px 28px;
-  }
-
-  /* IPTV video area */
-  #video-wrap {
-    position:relative;
-    width:100%;
-    aspect-ratio:16/9;
-    background:#000;
-    border-radius:10px;
-    overflow:hidden;
-    margin-bottom: 20px;
-  }
-  #video-player {
-    width:100%;
-    height:100%;
-  }
-
-  /* Channel List */
-  #iptv-list {
-    max-height:calc(60vh - 10px); /* Adjust based on mobile screen size */
-    overflow-y:auto;
-  }
-  .ch-item {
-    padding:10px;
-    margin-bottom:8px;
-    background:#222;
-    border:1px solid #ffffff1a;
-    border-radius:8px;
-    cursor:pointer;
-    transition:background .2s;
-  }
-  .ch-item:hover {
-    background:#2e2e2e;
-  }
-  .ch-title {
-    font-size:14px;
-    font-weight:600;
-  }
-
-  /* Buttons */
-  .corner-btn {
-    position:absolute;
-    top:12px;
-    padding:8px 12px;
-    border:1px solid #fff6;
-    background:rgba(0,0,0,.45);
-    color:#fff;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:14px;
-  }
-  #open-drawer-btn {
-    right:12px;
-  }
-  #save-to-mylist-btn {
-    left:12px;
-  }
-
-  @media (max-width: 600px) {
-    /* For mobile devices */
-    #iptv-drawer {
-      position:relative;
-      top: 0;
-      right: 0;
-      background:transparent;
-      height:auto;
-      border:none;
-      padding: 0;
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#fff}
+    header{
+      position:fixed;top:0;left:0;width:100%;z-index:1000;
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 16px;background:rgba(0,0,0,.85)
     }
-    #iptv-search {
-      width:100%;
-      padding:8px;
-      margin-bottom:10px;
+    .logo{color:#e50914;font-weight:700;font-size:20px}
+    nav ul{list-style:none;display:flex;gap:14px}
+    nav a{color:#fff;text-decoration:none;font-size:14px}
+    nav a:hover{color:#e50914}
+
+    .hero{
+      height:60vh;display:flex;align-items:center;justify-content:center;
+      padding-top:70px;
+      background:linear-gradient(180deg,#0008,transparent),
+        url('https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat
     }
-  }
-</style>
+    .hero h1{font-size:38px;text-shadow:0 2px 10px #000}
+
+    .section{padding:85px 16px 28px;max-width:1100px;margin:0 auto}
+    .hidden{display:none !important}
+
+    /* IPTV video area */
+    #video-wrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden}
+    #video-player{width:100%;height:100%}
+    .corner-btn{
+      position:absolute;top:12px;padding:8px 12px;border:1px solid #fff6;
+      background:rgba(0,0,0,.45);color:#fff;border-radius:8px;cursor:pointer;font-size:14px
+    }
+    #open-drawer-btn{ right:12px; }
+    #save-to-mylist-btn{ left:12px; }
+
+    /* IPTV Drawer (right side) */
+    #iptv-drawer{
+      position:fixed;top:0;right:-320px;width:320px;height:100vh;z-index:1001;
+      background:rgba(0,0,0,.75);backdrop-filter:blur(2px);
+      border-left:1px solid #ffffff22;padding:78px 12px 16px;transition:right .28s ease-in-out
+    }
+    #iptv-drawer.open{right:0}
+    #iptv-list{max-height:calc(100vh - 150px);overflow-y:auto;padding-right:4px}
+    .ch-item{
+      padding:10px;margin-bottom:8px;background:#222;border:1px solid #ffffff1a;
+      border-radius:8px;cursor:pointer;transition:background .2s
+    }
+    .ch-item:hover{background:#2e2e2e}
+    .ch-title{font-size:14px;font-weight:600}
+    #iptv-search{
+      width:100%;padding:8px;border-radius:8px;border:1px solid #ffffff22;
+      background:#1a1a1a;color:#fff;margin-bottom:10px
+    }
+
+    /* Mobile layout - IPTV Drawer at the bottom */
+    @media (max-width:900px){
+      #iptv-drawer {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        height: auto;
+        padding: 16px;
+        border-top: 1px solid #ffffff22;
+        backdrop-filter: none; /* Remove blur effect */
+      }
+
+      #iptv-drawer.open {
+        bottom: 0; /* Position the drawer at the bottom on mobile */
+      }
+
+      #video-wrap {
+        margin-bottom: 70px; /* Add space for the drawer */
+      }
+    }
+
+    /* Desktop layout - keep as is */
+    @media (min-width:901px){
+      #iptv-drawer {
+        position: fixed;
+        top: 0;
+        right: -320px;
+        width: 320px;
+        height: 100vh;
+        z-index: 1001;
+        background: rgba(0, 0, 0, .75);
+        backdrop-filter: blur(2px);
+        border-left: 1px solid #ffffff22;
+        padding: 78px 12px 16px;
+        transition: right .28s ease-in-out;
+      }
+      #iptv-drawer.open {
+        right: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -111,7 +123,7 @@
 
 <!-- HOME / WELCOME -->
 <section id="home-sec" class="hero">
-  <h1>Welcome to 3rsFlixTv</h1>
+  <h1></h1>
 </section>
 
 <!-- IPTV ONLY -->
@@ -122,105 +134,96 @@
     <button id="open-drawer-btn" class="corner-btn">Channels ▸</button>
     <div id="video-player"></div>
   </div>
-  <p style="opacity:.7;margin-top:10px;font-size:12px;">Tip: “Channels ▸” para ilabas ang drawer (auto-hide after 10s). “☆ Save” para i-add sa MyList.</p>
-
-  <!-- Channel List Below Video -->
-  <div id="iptv-list"></div>
+  <p style="opacity:.7;margin-top:10px;font-size:12px;">Tip: “Channels ▸” to open the drawer (auto-hides after 10s). “☆ Save” to add to MyList.</p>
 </section>
 
+<!-- IPTV Drawer -->
+<aside id="iptv-drawer">
+  <h3 style="margin-bottom:10px;">IPTV Channels</h3>
+  <input id="iptv-search" type="text" placeholder="Search channel...">
+  <div id="iptv-list"></div>
+</aside>
+
 <script>
-  // Sample Channels
-  const CHANNELS = {
-    IPTV: [
-      { name: 'KAPAMILYA', url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', type: 'mpd', logo: '' },
-      { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png' },
-      { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.ibb.co/2Y83j9Dx/3rs-Sine-Pinoy.png' },
-      { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.imgur.com/tSwdUjj.png' },
-      { name: 'CinePlex Asia', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210632/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://i.imgur.com/tSwdUjj.png' },
-      { name: 'JUZT-TV BOX', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210639/tracks-v1a1/mono.ts.m3u8', type: 'hls', logo: 'https://juzt-tv.vercel.app/your-logo.png' }
-    ]
-  };
+// Simple Channel Data
+const CHANNELS = {
+  IPTV: [
+    { name: 'KAPAMILYA', url: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/index.mpd', type: 'mpd' },
+    { name: '3RsTV', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210631/tracks-v1a1/mono.ts.m3u8', type: 'hls' },
+    { name: '3rsSinePinoy', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210267/tracks-v1a1/mono.ts.m3u8', type: 'hls' },
+    { name: 'STAR TELEVISION', url: 'https://live20.bozztv.com/giatvplayout7/giatv-210731/tracks-v1a1/mono.ts.m3u8', type: 'hls' },
+  ]
+};
 
-  let hls = null;
-  let shakaPlayer = null;
+let hls = null;
+let shakaPlayer = null;
+let drawerTimer = null;
 
-  // Render IPTV Channel List
-  function renderIPTVList() {
-    const list = document.getElementById('iptv-list');
-    list.innerHTML = ''; // Clear existing list
-    CHANNELS.IPTV.forEach((ch) => {
+// Function to play IPTV channels
+async function playIPTV(channel) {
+  // Code to handle video playback (same as your previous script)
+}
+
+// Function to render IPTV channels in the drawer
+function renderIPTVList(filter = '') {
+  const list = document.getElementById('iptv-list');
+  const q = (filter || '').toLowerCase();
+  list.innerHTML = '';
+  CHANNELS.IPTV
+    .filter(ch => ch.name.toLowerCase().includes(q))
+    .forEach(ch => {
       const item = document.createElement('div');
       item.className = 'ch-item';
-      item.innerHTML = `
-        <div class="ch-title">${ch.name}</div>
-      `;
-      item.onclick = () => playIPTV(ch);
+      item.innerHTML = `<div class="ch-title">${ch.name}</div>`;
+      item.onclick = () => { playIPTV(ch); restartDrawerAutoHide(); };
       list.appendChild(item);
     });
-  }
+}
 
-  // Play IPTV Channel
-  function playIPTV(channel) {
-    const videoWrap = document.getElementById('video-player');
-    const video = document.createElement('video');
-    video.setAttribute('playsinline', '');
-    video.setAttribute('controls', '');
-    video.style.width = '100%';
-    video.style.height = '100%';
-    videoWrap.innerHTML = ''; // Clear previous video
-    videoWrap.appendChild(video);
+// Function to restart the drawer auto-hide timer
+function restartDrawerAutoHide() {
+  const d = document.getElementById('iptv-drawer');
+  if (!d.classList.contains('open')) d.classList.add('open');
+  if (drawerTimer) clearTimeout(drawerTimer);
+  drawerTimer = setTimeout(() => { d.classList.remove('open'); }, 10000); // 10s
+}
 
-    if (channel.type === 'hls') {
-      if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(channel.url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play().catch(() => {});
-        });
-      } else {
-        video.src = channel.url;
-        video.play().catch(() => {});
-      }
-    } else if (channel.type === 'mpd') {
-      shaka.polyfill.installAll();
-      if (!shaka.Player.isBrowserSupported()) {
-        alert('Shaka: browser not supported.');
-        return;
-      }
-      shakaPlayer = new shaka.Player(video);
-      shakaPlayer.load(channel.url).then(() => {
-        video.play().catch(() => {});
-      });
-    } else {
-      alert('Unsupported stream type');
-    }
-  }
+// Show IPTV and load the channel list
+function showIPTV() {
+  document.getElementById('home-sec').classList.add('hidden');
+  document.getElementById('iptv-sec').classList.remove('hidden');
+  renderIPTVList();
+  openIPTVDdrawer();
+  if (CHANNELS.IPTV.length) playIPTV(CHANNELS.IPTV[0]); // auto-play first
+}
 
-  // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
-    showHome();
-    renderIPTVList();
-  });
+// Open the IPTV drawer
+function openIPTVDdrawer() {
+  const d = document.getElementById('iptv-drawer');
+  d.classList.add('open');
+  restartDrawerAutoHide();
+}
 
-  // Show Home
-  function showHome() {
-    hideAll();
-    document.getElementById('home-sec').classList.remove('hidden');
-  }
+// Hide all sections
+function hideAll() {
+  document.getElementById('home-sec').classList.add('hidden');
+  document.getElementById('iptv-sec').classList.add('hidden');
+  closeIPTVDdrawer();
+}
 
-  // Hide All Sections
-  function hideAll() {
-    document.getElementById('home-sec').classList.add('hidden');
-    document.getElementById('iptv-sec').classList.add('hidden');
-  }
+// Close the IPTV drawer
+function closeIPTVDdrawer() {
+  const d = document.getElementById('iptv-drawer');
+  d.classList.remove('open');
+  if (drawerTimer) clearTimeout(drawerTimer);
+  drawerTimer = null;
+}
 
-  // Show IPTV
-  function showIPTV() {
-    hideAll();
-    document.getElementById('iptv-sec').classList.remove('hidden');
-    renderIPTVList();
-  }
+// Initialize and render the list
+document.addEventListener('DOMContentLoaded', () => {
+  showHome();
+  renderIPTVList(); // pre-render IPTV list
+});
 </script>
 
 </body>
