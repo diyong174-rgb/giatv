@@ -195,4 +195,9 @@ nav a:hover {
         font-size: 16px;
         padding: 8px 10px;
     }
+
+    /* Remove Channel Button on Mobile */
+    #open-drawer-btn {
+        display: none;
+    }
 }
