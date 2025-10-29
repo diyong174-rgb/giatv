@@ -27,7 +27,7 @@ function showIPTV() {
     document.getElementById('iptv-sec').classList.remove('hidden');
     renderIPTVList();
     openIPTVDdrawer();
-    autoHideDrawer();
+    autoHideDrawer();  // Auto hide for desktop only
 }
 
 // Show Movies
@@ -36,7 +36,7 @@ function showMovies() {
     document.getElementById('movies-sec').classList.remove('hidden');
     renderMoviesList();
     openIPTVDdrawer();
-    autoHideDrawer();
+    autoHideDrawer();  // Auto hide for desktop only
 }
 
 // Show Radio
@@ -157,6 +157,15 @@ function destroyPlayers() {
     if (audioPlayer) {
         audioPlayer.pause();
         audioPlayer.src = '';  // Stop and clear the audio source
+    }
+}
+
+// Disable auto hide for mobile view and auto hide drawer for desktop only
+function autoHideDrawer() {
+    if (window.innerWidth > 900) {
+        setTimeout(() => {
+            closeIPTVDdrawer();
+        }, 5000);  // Hide after 5 seconds (Only for desktop)
     }
 }
 
