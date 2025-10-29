@@ -45,7 +45,6 @@ function showRadio() {
     document.getElementById('radio-sec').classList.remove('hidden');
     renderRadioList();
     openIPTVDdrawer();
-    autoHideDrawer();
 }
 
 // Show MyList
@@ -159,13 +158,6 @@ function destroyPlayers() {
         audioPlayer.pause();
         audioPlayer.src = '';  // Stop and clear the audio source
     }
-}
-
-// Auto hide the drawer after 5 seconds
-function autoHideDrawer() {
-    setTimeout(() => {
-        closeIPTVDdrawer();
-    }, 5000);  // Hide after 5 seconds
 }
 
 // On page load
