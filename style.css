@@ -200,4 +200,19 @@ nav a:hover {
     #open-drawer-btn {
         display: none;
     }
+
+    /* Resize categories to fit on one line */
+    #iptv-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        padding-left: 0;
+        padding-right: 10px;
+    }
+
+    .ch-item {
+        flex: 0 0 auto; /* Prevent the items from wrapping */
+        margin-right: 8px;
+        width: 120px;
+    }
 }
