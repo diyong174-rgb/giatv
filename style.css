@@ -217,4 +217,11 @@ nav a:hover {
         margin-right: 8px;
         width: 120px;
     }
+
+    /* Vertical scroll for channel drawer on mobile */
+    #iptv-drawer {
+        max-height: 70vh; /* Limit the height of the drawer on mobile */
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding: 20px 12px;
+    }
 }
