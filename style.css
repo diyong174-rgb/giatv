@@ -187,12 +187,14 @@ nav a:hover {
 
     /* Mobile header adjustments */
     header nav ul {
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Ensure the header is a single horizontal line */
         justify-content: center;
+        gap: 10px; /* Reduce the gap between links */
+        overflow-x: auto; /* Allow scrolling if there are too many items */
     }
 
     nav a {
-        font-size: 16px;
+        font-size: 14px;
         padding: 8px 10px;
     }
 
