@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PeanutFlix</title>
+
+    <!-- External libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.9.3/shaka-player.compiled.min.js"></script>
+
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">PeanutFlix</div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showIPTV();return false;">Live TV</a></li>
+                <li><a href="#" onclick="showMovies();return false;">Movies</a></li>
+                <li><a href="#" onclick="showRadio();return false;">Radio</a></li>
+                <li><a href="#" onclick="showMyList();return false;">MyList</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- IPTV ONLY -->
+    <section id="iptv-sec" class="section hidden">
+        <h2>Live TV</h2>
+        <div id="video-wrap">
+            <button id="save-to-mylist-btn" class="corner-btn">☆ Save</button>
+            <button id="open-drawer-btn" class="corner-btn">Channels ▸</button>
+            <div id="video-player"></div>
+        </div>
+        <p>Tip: “Channels ▸” para ilabas ang drawer (auto-hide after 10s). “☆ Save” para i-add sa MyList.</p>
+    </section>
+
+    <!-- MOVIES ONLY -->
+    <section id="movies-sec" class="section hidden">
+        <h2>Latest Movies</h2>
+        <div id="video-wrap">
+            <button id="save-to-mylist-btn" class="corner-btn">☆ Save</button>
+            <button id="open-drawer-btn" class="corner-btn">Channels ▸</button>
+            <div id="video-player"></div>
+        </div>
+        <p>Tip: “Channels ▸” para ilabas ang drawer (auto-hide after 10s). “☆ Save” para i-add sa MyList.</p>
+    </section>
+
+    <!-- RADIO ONLY -->
+    <section id="radio-sec" class="section hidden">
+        <h2>Radio</h2>
+        <div id="radio-layout">
+            <div>
+                <div id="radio-list"></div>
+            </div>
+            <div>
+                <div style="background:#1a1a1a;border:1px solid #ffffff1a;border-radius:10px;padding:10px;">
+                    <p>Now Playing</p>
+                    <audio id="audio-player" controls></audio>
+                    <button id="save-radio-btn" class="btn" style="margin-top:8px;">☆ Save to MyList</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MYLIST -->
+    <section id="mylist-sec" class="section hidden">
+        <h2>MyList</h2>
+        <div class="grid" id="mylist-grid"></div>
+    </section>
+
+    <!-- IPTV Drawer -->
+    <aside id="iptv-drawer">
+        <h3>IPTV Channels</h3>
+        <input id="iptv-search" type="text" placeholder="Search channel...">
+        <div id="iptv-list"></div>
+    </aside>
+
+    <!-- Link to external JS -->
+    <script src="app.js"></script>
+</body>
+
+</html>
