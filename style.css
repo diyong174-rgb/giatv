@@ -133,8 +133,8 @@ nav a:hover {
 }
 
 #iptv-list {
-    max-height: calc(100vh - 150px);
-    overflow-y: auto;
+    max-height: calc(100vh - 150px);  /* Adjusted for better mobile height */
+    overflow-y: auto;  /* Enables vertical scrolling */
     padding-right: 4px;
     padding-left: 12px;
 }
