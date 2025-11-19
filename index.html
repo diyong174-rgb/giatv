@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IPTV Player</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .video-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 95%;
+      max-height: 95%;
+    }
+
+    .fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 50px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 5px;
+      z-index: 10;
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 50px;
+      height: 50px;
+      background-image: url('https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 10;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media only screen and (max-width: 768px) {
+      .video-container {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      video {
+        object-fit: contain;
+      }
+    }
+
+    .movie-info {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 20px;
+      z-index: 10;
+    }
+
+    .pg-info {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: white;
+      font-size: 20px;
+      z-index: 10;
+    }
+
+    .ad-container {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 20px;
+      font-size: 20px;
+      display: none;
+      z-index: 20;
+    }
+
+    .error-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 0, 0, 0.7);
+      color: white;
+      padding: 20px;
+      font-size: 20px;
+      display: none;
+      z-index: 30;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+  <div class="video-container">
+    <video id="videoPlayer" controls autoplay>
+      <source id="videoSource" src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <button class="fullscreen-btn" onclick="toggleFullScreen()">🖥️</button>
+    <div id="movieInfo" class="movie-info"></div>
+    <div id="pgInfo" class="pg-info"></div>
+    <div id="logo" class="logo"></div>
+    <div id="adContainer" class="ad-container">
+      <p>Ad Playing...</p>
+    </div>
+    <div id="errorMessage" class="error-message">
+      <p>Sorry, this video cannot be played in your browser.</p>
+    </div>
+  </div>
+
+  <script>
+    const moviesList = [
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/Wang_Fam_2015_tt5209276_WD_480.mp4", title: "WangFam", isGiatv: true, pg: "Parental Guidance" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210631/Crawl_2019_720p_BluRay_x264_ESub_Hollymoviehd.mp4", title: "Crawl", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210267/Feng_Shui_2004_720p_NF_WEB_DL_x264_ESub_Hollymoviehd.mp4", title: "Feng_Shui", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210267/Izla__2021____Watch_Full_Pinoy_Movies_Online_2025_09_30_18_51_54_206_.mp4", title: "Izla", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210267/Love_You_Long_Time_2023_720p_NF_WEB_DL_x264_ESub_Hollymoviehd.mp4", title: "Love_You_Long_Time", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210267/My_House_Husband_Ikaw_Na_2011_tt2118688_WD_480_1_2025_10_26_00_56_30_935_.mp4", title: "My_House_Husband_Ikaw_Na", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210731/Block_Z_Movie_Online___Sflix_2025_11_02_16_35_35_501__2025_11_02_18_26_19_461_.mp4", title: "Block_Z", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210731/Demolition_Man_Movie_Watch_Online_2025_11_02_17_37_51_806__2025_11_02_18_26_43_460_.mp4", title: "Demolition_Man", isGiatv: true, pg: "Parental Guidance" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210731/Escape_Room__Tournament_of_Champions_Movie_Watch_Online_2025_11_01_04_52_28_788_.mp4", title: "Escape_Room__Tournament_of_Champions", isGiatv: true, pg: "Parental Guidance" },
+      { src: "https://jungotvmedia.chanall.tv/jungotv/SolarMayLamokSaKulamboTGFULL10mbps/playlist_720p.m3u8", title: "May Lamok sa loob ng Kulambo", isGiatv: false, pg: "Parental Guidance" },
+      { src: "https://jungotvmedia.chanall.tv/jungotv/SOLARKumakasaKahitNagiisaTGFULL10mbps/playlist_720p.m3u8", title: "Kumakasa kahit Mag-isa", isGiatv: false, pg: "Parental Guidance" },
+	  { src: "https://ph-en.plp4ytv14.workers.dev/nflx.mp4?file=aD5PSptcaGi07yH%2Be0am%2BImv96euKcVvnMrFzKUa4ALTA4PbJDebTbsOwAzD1RKo&expiry=oqFh%2B149Y%2BpyhYhZXMTrJQ%3D%3D&mac=ecdfaf3336cc44cb125aff33f4a378f686da12860995be86152009e5c29073ad", title: "2012", isGiatv: false, pg: "Parental Guidance" },
+      { src: "https://fonts.gstatic109.workers.dev/NOTFLIX_PH?file=V4hxFBeOlS0C0QFbGfaPuDr5YJvi5YZM6iu091OKQPDom59ul1knWRGtj7D5MtOh&expiry=OQkOZgxQ6VAWpZ268ykt5w%3D%3D&mac=2861aed323cd3f1259ce839c595bf78ef2c4e4162dc2428f9c86db88343a7d10", title: "Weyt A Minit, Kapeng Mainit", isGiatv: false, pg: "Parental Guidance" }
+    ];
+
+    const adsList = [
+       { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" },
+	  { src: "https://videos.gia.tv/giatv/movies/playlist/210273/what_to_do_before__during__and_after_a_typhoon.mp4", title: "Ads" },
+      { src: "https://videos.gia.tv/giatv/movies/playlist/210273/When_The_Earth_Shakes___Animated_Video.mp4", title: "Ads" }
+    ];
+
+    let currentMovieIndex = Math.floor(Math.random() * moviesList.length);
+    let adIndex = 0;
+    let hlsInstance = null;
+    let isAdPlaying = false;
+
+    const videoPlayer = document.getElementById('videoPlayer');
+    const errorMessage = document.getElementById('errorMessage');
+    const pgInfo = document.getElementById('pgInfo');
+    const logo = document.getElementById('logo');
+
+    // Function to handle video error (skip expired links)
+    function handleVideoError() {
+      console.error("Error playing the video.");
+      skipToNextMovie();
+    }
+
+    // Function to skip to the next movie
+    function skipToNextMovie() {
+      currentMovieIndex = (currentMovieIndex + 1) % moviesList.length;
+      loadMovie(moviesList[currentMovieIndex]);
+    }
+
+    // Function to load and play the movie
+    function loadMovie(movie) {
+      const movieInfo = document.getElementById('movieInfo');
+      errorMessage.style.display = 'none';
+
+      // Hide the logo if the movie is from giatv
+      if (movie.isGiatv) {
+        logo.style.display = 'none';  // Hide logo if giatv movie
+      } else {
+        logo.style.display = 'block'; // Show logo for other movies
+      }
+
+      movieInfo.style.display = 'block';
+      document.getElementById('logo').style.display = 'block';
+      pgInfo.style.display = 'block';
+
+      if (movie.isGiatv) {
+        movieInfo.innerHTML = "";
+        pgInfo.style.display = 'none';
+      } else {
+        movieInfo.innerHTML = movie.title;
+        pgInfo.innerHTML = movie.pg;
+      }
+
+      playMedia(movie);
+    }
+
+    // Function to play the media (movie or ad)
+    function playMedia(item) {
+      const mainV = videoPlayer;
+
+      errorMessage.style.display = 'none';
+
+      if (hlsInstance) {
+        hlsInstance.destroy();
+        hlsInstance = null;
+      }
+
+      if (item.src.endsWith(".m3u8")) {
+        if (Hls.isSupported()) {
+          hlsInstance = new Hls();
+          hlsInstance.loadSource(item.src);
+          hlsInstance.attachMedia(mainV);
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
+            mainV.play();
+          });
+          hlsInstance.on(Hls.Events.ERROR, function (event, data) {
+            console.error("Error playing stream:", data);
+            handleVideoError(); // Skip on error
+          });
+        } else if (mainV.canPlayType('application/vnd.apple.mpegurl')) {
+          mainV.src = item.src;
+          mainV.play();
+        } else {
+          console.error("HLS is not supported in this browser");
+          handleVideoError(); // Skip on error
+        }
+      } else {
+        mainV.src = item.src;
+        mainV.muted = false;
+        mainV.play().catch((error) => {
+          console.error("Error playing video:", error);
+          handleVideoError(); // Skip on error
+        });
+      }
+    }
+
+    // Handle video end event to show the next movie or ad
+    videoPlayer.addEventListener('ended', function () {
+      if (!isAdPlaying) {
+        showAd();
+      } else {
+        playNextMovie();
+      }
+    });
+
+    // Show ad when the movie ends
+    function showAd() {
+      const adContainer = document.getElementById('adContainer');
+      adContainer.style.display = 'block';
+      isAdPlaying = true;
+
+      document.getElementById('movieInfo').style.display = 'none';
+      document.getElementById('logo').style.display = 'block';
+      pgInfo.style.display = 'none';
+
+      playMedia(adsList[adIndex]);
+    }
+
+    // Play the next movie after an ad
+    function playNextMovie() {
+      const adContainer = document.getElementById('adContainer');
+      adIndex = (adIndex + 1) % adsList.length;
+      adContainer.style.display = 'none';
+      isAdPlaying = false;
+
+      currentMovieIndex = (currentMovieIndex + 1) % moviesList.length;
+      loadMovie(moviesList[currentMovieIndex]);
+    }
+
+    // Toggle full-screen mode
+    function toggleFullScreen() {
+      const video = videoPlayer;
+      if (!document.fullscreenElement) {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.mozRequestFullScreen) {
+          video.mozRequestFullScreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    }
+
+    // Start by loading the first movie
+    loadMovie(moviesList[currentMovieIndex]);
+  </script>
+</body>
+</html>
