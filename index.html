@@ -117,24 +117,6 @@
 
     <script>
         const movies = [
-            // Old list
-            {
-                src: "https://ph-en.plp4ytv24.workers.dev/nflx.mp4?file=Wluu9J86A7a6ZpDUf36SL4c3K2%2BSQp7ZZ%2BxsrMdfk4YLNDHRjZDRk48UvZ%2BwT3XR&expiry=yuwDj3wafm7HjKhgU9aVrA%3D%3D&mac=ae1aaebd098ca5e8ecbc68cf45f4e161d58a6b4ce832314a3795f5b50e12d224",
-                title: "Punch"
-            },
-            {
-                src: "https://ph-en.plp4ytv19.workers.dev/nflx.mp4?file=xbCO5kD2oLwiWYpvC9BxRCurR%2BPW5W1iSzmmkiTHp%2F2ChCz%2BHoAwBBPoZLYqufLw&expiry=63ZGj1FGf8oJdk4iDXzLyw%3D%3D&mac=e4989f3131e33bbaef9f2ae4cd10425995b5c4297d963bb56b26b27b7bf1824f",
-                title: "Cars 3"
-            },
-            {
-                src: "https://fonts.gstatic121.workers.dev/NOTFLIX_PH?file=imApY3G%2Fj4A46mNP14L3vSKf0j5hhzG0jPxU1CRolw2rBYcic5bHcWtbTO%2BJZamy&expiry=QBGMcaffBotFbthWQ9%2FeVQ%3D%3D&mac=5edc643f118d42dac6a89229007ed64d8fb38c077e5757e5366772e59951fe51",
-                title: "Snowpiercer"
-            },
-            {
-                src: "https://fonts.gstatic105.workers.dev/NOTFLIX_PH?file=YHnwUPG4cRxNDe7%2Bzq5SAOk7jNJlFPRh%2FOZFWWUHmP99QDohTshgXKWOmiDXt4fv&expiry=rBkRJqEj8NAMXHSZesXyHQ%3D%3D&mac=3d6ef4fc715b20737cf548c95c6ab1c9af49177c2e2c9e830db8ac54a28f3949",
-                title: "Iron Man 3"
-            },
-            // New list (Giatv sample movies)
             {
                 src: "https://videos.gia.tv/giatv/movies/playlist/210273/Wang_Fam_2015_tt5209276_WD_480.mp4",
                 title: "WangFam"
@@ -170,6 +152,22 @@
             {
                 src: "https://videos.gia.tv/giatv/movies/playlist/210731/Escape_Room__Tournament_of_Champions_Movie_Watch_Online_2025_11_01_04_52_28_788_.mp4",
                 title: "Escape_Room__Tournament_of_Champions"
+            },
+            {
+                src: "https://ph-en.plp4ytv24.workers.dev/nflx.mp4?file=Wluu9J86A7a6ZpDUf36SL4c3K2%2BSQp7ZZ%2BxsrMdfk4YLNDHRjZDRk48UvZ%2BwT3XR&expiry=yuwDj3wafm7HjKhgU9aVrA%3D%3D&mac=ae1aaebd098ca5e8ecbc68cf45f4e161d58a6b4ce832314a3795f5b50e12d224",
+                title: "Punch"
+            },
+            {
+                src: "https://ph-en.plp4ytv19.workers.dev/nflx.mp4?file=xbCO5kD2oLwiWYpvC9BxRCurR%2BPW5W1iSzmmkiTHp%2F2ChCz%2BHoAwBBPoZLYqufLw&expiry=63ZGj1FGf8oJdk4iDXzLyw%3D%3D&mac=e4989f3131e33bbaef9f2ae4cd10425995b5c4297d963bb56b26b27b7bf1824f",
+                title: "Cars 3"
+            },
+            {
+                src: "https://fonts.gstatic121.workers.dev/NOTFLIX_PH?file=imApY3G%2Fj4A46mNP14L3vSKf0j5hhzG0jPxU1CRolw2rBYcic5bHcWtbTO%2BJZamy&expiry=QBGMcaffBotFbthWQ9%2FeVQ%3D%3D&mac=5edc643f118d42dac6a89229007ed64d8fb38c077e5757e5366772e59951fe51",
+                title: "Snowpiercer"
+            },
+            {
+                src: "https://fonts.gstatic105.workers.dev/NOTFLIX_PH?file=YHnwUPG4cRxNDe7%2Bzq5SAOk7jNJlFPRh%2FOZFWWUHmP99QDohTshgXKWOmiDXt4fv&expiry=rBkRJqEj8NAMXHSZesXyHQ%3D%3D&mac=3d6ef4fc715b20737cf548c95c6ab1c9af49177c2e2c9e830db8ac54a28f3949",
+                title: "Iron Man 3"
             }
         ];
 
@@ -184,7 +182,8 @@
 
         function getRandomMovie() {
             const randomIndex = Math.floor(Math.random() * movies.length);
-            return movies[randomIndex];
+            const movie = movies[randomIndex];
+            return movie;
         }
 
         function loadRandomMovie() {
@@ -197,6 +196,7 @@
             movieTitle.textContent = movie.title;
         }
 
+        // Load a random movie when the page is refreshed
         window.onload = loadRandomMovie;
     </script>
 </body>
