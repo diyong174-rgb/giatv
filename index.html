@@ -10,7 +10,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body, html {
             width: 100%;
             height: 100%;
@@ -20,36 +19,31 @@
             align-items: center;
             overflow: hidden;
         }
-
         .video-container {
             position: relative;
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
+            alignments: center;
             max-width: 1300px;
             max-height: 800px;
         }
-
         video {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Ensures the video fits within the container on all screen sizes */
+            object-fit: contain;
         }
-
         .overlay {
             position: absolute;
             z-index: 2;
             color: white;
             font-size: 20px;
         }
-
         .title {
             top: 10px;
             left: 10px;
         }
-
         .logo-container {
             position: absolute;
             top: 10px;
@@ -57,98 +51,64 @@
             display: flex;
             align-items: center;
         }
-
         .logo {
             width: 50px;
         }
-
         .fullscreen-btn {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0,0,0,0.5);
             color: #fff;
             border: none;
             padding: 8px;
             cursor: pointer;
-            font-size: 24px; /* Icon size */
+            font-size: 24px;
             border-radius: 5px;
-            margin-left: 10px; /* Space between logo and fullscreen button */
+            margin-left: 10px;
         }
-
         .pg {
             bottom: 10px;
             right: 10px;
         }
-
-        /* Mobile Styling */
         @media (max-width: 768px) {
             .video-container {
                 max-width: 100%;
                 max-height: 100%;
-                justify-content: center; /* Centers the video container horizontally */
-                align-items: center; /* Centers the video container vertically */
-                padding: 10px; /* Adds some padding to avoid edge clipping */
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
             }
-
             video {
                 width: 100%;
-                height: auto; /* Keeps aspect ratio */
+                height: auto;
             }
-
             .fullscreen-btn {
                 right: 20px;
                 top: 20px;
             }
-
             .overlay {
                 font-size: 16px;
             }
-
             .logo-container {
                 top: 15px;
                 right: 15px;
             }
         }
-
-        /* Desktop Styling */
         @media (min-width: 769px) {
             .video-container {
                 max-width: 1300px;
                 max-height: 800px;
             }
         }
-
-        /* Loading spinner styling */
-        .spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 16px solid #f3f3f3; /* Light grey */
-            border-top: 16px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-        }
-
-        /* Animation for the spinner */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
     </style>
 </head>
 <body>
     <div class="video-container">
-        <!-- Loading Spinner -->
-        <div class="spinner" id="loading-spinner"></div>
-        <video id="video-player" controls preload="auto" onloadeddata="hideSpinner()">
+        <video id="video-player" controls>
             <source id="movie-source" src="" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="overlay title" id="movie-title">Loading...</div>
         <div class="logo-container">
-            <img src="https://i.ibb.co/nN0VGRY8/Chat-GPT-Image-Oct-4-2025-05-05-12-AM-1.png" alt="Logo" class="logo">
+            <img src="https://i.ibb.co/nN0VGRY8/Chat‑GPT‑Image‑Oct‑4‑2025‑05‑05‑12‑AM‑1.png" alt="Logo" class="logo">
             <button class="fullscreen-btn" onclick="toggleFullscreen()">&#x26F6;</button>
         </div>
         <div class="overlay pg">Parental Guidance</div>
@@ -156,6 +116,7 @@
 
     <script>
         const movies = [
+            // Old list
             {
                 src: "https://ph-en.plp4ytv24.workers.dev/nflx.mp4?file=Wluu9J86A7a6ZpDUf36SL4c3K2%2BSQp7ZZ%2BxsrMdfk4YLNDHRjZDRk48UvZ%2BwT3XR&expiry=yuwDj3wafm7HjKhgU9aVrA%3D%3D&mac=ae1aaebd098ca5e8ecbc68cf45f4e161d58a6b4ce832314a3795f5b50e12d224",
                 title: "Punch"
@@ -171,6 +132,43 @@
             {
                 src: "https://fonts.gstatic105.workers.dev/NOTFLIX_PH?file=YHnwUPG4cRxNDe7%2Bzq5SAOk7jNJlFPRh%2FOZFWWUHmP99QDohTshgXKWOmiDXt4fv&expiry=rBkRJqEj8NAMXHSZesXyHQ%3D%3D&mac=3d6ef4fc715b20737cf548c95c6ab1c9af49177c2e2c9e830db8ac54a28f3949",
                 title: "Iron Man 3"
+            },
+            // New list
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210273/Wang_Fam_2015_tt5209276_WD_480.mp4",
+                title: "WangFam"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210631/Crawl_2019_720p_BluRay_x264_ESub_Hollymoviehd.mp4",
+                title: "Crawl"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210267/Feng_Shui_2004_720p_NF_WEB_DL_x264_ESub_Hollymoviehd.mp4",
+                title: "Feng_Shui"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210267/Izla__2021____Watch_Full_Pinoy_Movies_Online_2025_09_30_18_51_54_206_.mp4",
+                title: "Izla"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210267/Love_You_Long_Time_2023_720p_NF_WEB_DL_x264_ESub_Hollymoviehd.mp4",
+                title: "Love_You_Long_Time"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210267/My_House_Husband_Ikaw_Na_2011_tt2118688_WD_480_1_2025_10_26_00_56_30_935_.mp4",
+                title: "My_House_Husband_Ikaw_Na"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210731/Block_Z_Movie_Online___Sflix_2025_11_02_16_35_35_501__2025_11_02_18_26_19_461_.mp4",
+                title: "Block_Z"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210731/Demolition_Man_Movie_Watch_Online_2025_11_02_17_37_51_806__2025_11_02_18_26_43_460_.mp4",
+                title: "Demolition_Man"
+            },
+            {
+                src: "https://videos.gia.tv/giatv/movies/playlist/210731/Escape_Room__Tournament_of_Champions_Movie_Watch_Online_2025_11_01_04_52_28_788_.mp4",
+                title: "Escape_Room__Tournament_of_Champions"
             }
         ];
 
@@ -185,8 +183,7 @@
 
         function getRandomMovie() {
             const randomIndex = Math.floor(Math.random() * movies.length);
-            const movie = movies[randomIndex];
-            return movie;
+            return movies[randomIndex];
         }
 
         function loadRandomMovie() {
@@ -199,11 +196,6 @@
             movieTitle.textContent = movie.title;
         }
 
-        function hideSpinner() {
-            document.getElementById('loading-spinner').style.display = 'none';
-        }
-
-        // Load a random movie when the page is refreshed
         window.onload = loadRandomMovie;
     </script>
 </body>
